@@ -5,9 +5,19 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
 
 var app = express();
+
+// Set up mongoose connection
+var mongoose = require('mongoose');
+var dev_db_url = 'mongodb://localhost:27017/elm_server?retryWrites=true'
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
+mongoose.set('useCreateIndex', true);
+mongoose.connect(mongoDB, { useNewUrlParser: true,useUnifiedTopology: true });
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/admin',adminRouter);
 
 // catch 404 and forward to error handler
 // 捕获 404 并抛给错误处理器
@@ -39,7 +49,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   // 渲染出错页面
   res.status(err.status || 500);
-  // res.render('error');
+  res.send(err);
 });
 
 module.exports = app;

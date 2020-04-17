@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+/* GET home data. */
 router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
-  res.json({user:'tobi'});
+  res.send("wellcome to elm-server-node");
 });
+
+
 
 module.exports = router;
