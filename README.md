@@ -9,6 +9,11 @@ npm install
 ```
 DEBUG=elm-server-node:* npm start
 ```
+or 
+```
+DEBUG=elm-server-node:* npm run devstart
+```
+
 ### build MongoDB database
 ```
 node populatedb <mongodb url>
