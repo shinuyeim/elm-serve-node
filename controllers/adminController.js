@@ -13,7 +13,7 @@ exports.admin_list = function (req, res, next) {
         .exec(function (err, list_admins) {
             if (err) { return next(err); }
             // Successful, so render.
-            res.send({
+            res.json({
                 requst_metadata:{
                     Total:list_admins.length,
                     Limit:Number(limit),

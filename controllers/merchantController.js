@@ -11,7 +11,7 @@ exports.merchant_list = function (req, res, next) {
         .exec(function (err, list_merchants) {
             if (err) { return next(err); }
             // Successful, so render.
-            res.send({
+            res.json({
                 requst_metadata: {
                     Total: list_merchants.length,
                     Limit: Number(limit),
