@@ -14,6 +14,7 @@ baseUrl: http://localhost:3000
 
 ### 获取管理员列表
 
+
 #### 请求URL：
 ```
 <baseUrl>/admin/list
@@ -136,6 +137,40 @@ GET {{baseUrl}}/merchant/all?offset=0&limit=1
     ]
 }
 ```
+---
+### 删除商家
+
+#### 请求URL：
+```
+<baseUrl>/merchant/:id
+```
+
+#### 请求方式：
+```
+DELETE
+```
+
+#### 参数类型：param
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|id    |Y       |objectID | 商家id |
+
+#### 请求示例：
+```
+DELETE {{baseUrl}}/merchant/5e970516e26a87334c4b0250
+```
+#### 返回示例：
+
+```json
+{
+  "status": 0,
+  "massage": "Delete sucess."
+}
+```
+
+
+
 
 
 

@@ -50,6 +50,4 @@ exports.admin_delete = function (req, res, next) {
             massage: 'Delete sucess.',
         })
     });
-
-
 }

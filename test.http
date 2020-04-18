@@ -5,3 +5,6 @@ GET {{baseUrl}}/admin/list?offset=0&limit=1
 
 ### 删除管理员
 DELETE {{baseUrl}}/admin/5e970515e26a87334c4b0212
+
+### 删除商家
+DELETE {{baseUrl}}/merchant/5e970516e26a87334c4b0250

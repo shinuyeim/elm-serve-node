@@ -23,3 +23,22 @@ exports.merchant_list = function (req, res, next) {
         })
 
 };
+
+exports.merchant_delete = function (req, res, next) {
+    const merchant_id = req.params.id;
+
+    Merchant.findByIdAndRemove(merchant_id, function (err) {
+        if (err) { 
+            res.send({
+                status: 1,
+                massage: 'Delete failed!',
+            })
+            return next(err);
+         }
+        // Successful, so render.
+        res.send({
+            status: 0,
+            massage: 'Delete sucess.',
+        })
+    });
+}
