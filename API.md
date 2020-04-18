@@ -15,7 +15,7 @@ baseUrl: http://localhost:3000
 
 #### 请求URL：
 ```
-<baseUrl>/admin/all
+<baseUrl>/admin/list
 ```
 
 #### 请求方式：
@@ -31,14 +31,14 @@ GET
 |offset|N    |非负整数 | 跳过数据条数 默认 0 |
 
 #### 请求示例：
-[http://localhost:3000/admin/all?offset=0&limit=20](http://localhost:3000/admin/all?offset=5&limit=1)
+[http://localhost:3000/admin/list?offset=0&limit=1](http://localhost:3000/admin/list?offset=5&limit=1)
 
 #### 返回示例：
 
 ```json
 {
-    "requst_metadata": {
-        "Total": 1,
+    "metadata": {
+        "Total": 60,
         "Limit": 1,
         "LimitOffset": 5,
         "ReturnedRows": 1
