@@ -8,6 +8,9 @@ baseUrl: http://localhost:3000
 [获取管理员列表](#获取管理员列表)<br/>
 [删除管理员](#删除管理员)</br>
 [获取商家列表](#获取商家列表)<br/>
+[删除商家](#删除商家)</br>
+[新增商家](#新增商家)</br>
+
 
 ---
 ## 接口：
@@ -93,6 +96,7 @@ DELETE {{baseUrl}}/admin/5e970515e26a87334c4b0212
 }
 ```
 ---
+
 ### 获取商家列表
 
 #### 请求URL：
@@ -140,6 +144,7 @@ GET {{baseUrl}}/merchant/all?offset=0&limit=1
 ---
 ### 删除商家
 
+
 #### 请求URL：
 ```
 <baseUrl>/merchant/:id
@@ -168,9 +173,46 @@ DELETE {{baseUrl}}/merchant/5e970516e26a87334c4b0250
   "massage": "Delete sucess."
 }
 ```
+---
+### 新增商家
 
+#### 请求URL：
+```
+<baseUrl>/merchant/create
+```
 
+#### 请求方式：
+```
+POST
+```
 
+#### 参数类型：body
 
+|参数|是否必选|类型|说明|
+|:-----|:------:|:-----|:-----|
+|shop_name     |Y |String      | 商家名称 |
+|register_date |Y |ISO8601Date | 注册日期 |
+|address       |Y |String      | 商家地址|
+|phone         |Y |String      | 联系方式 |
+|introduction  |N |String      | 商家简介 |
 
+#### 请求示例：
+```
+POST {{baseUrl}}/merchant/create
+Content-Type: application/json
 
+{
+    "shop_name":"同福客栈",
+    "register_date":"2020-04-18T13:52:39",
+    "address":"西湖路万达广场B1层436号",
+    "phone":"18446905856",
+    "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
+} 
+```
+#### 返回示例：
+```json
+{
+  "status": 0,
+  "massage": "Create sucess."
+}
+```

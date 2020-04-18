@@ -16,5 +16,5 @@ DEBUG=elm-server-node:* npm run devstart
 
 ### build MongoDB database
 ```
-node populatedb <mongodb url>
+node populatedb/populatedb.js mongodb://localhost:27017/elm_server
 ```

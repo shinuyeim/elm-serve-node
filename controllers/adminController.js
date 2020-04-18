@@ -38,14 +38,14 @@ exports.admin_delete = function (req, res, next) {
 
     Admin.findByIdAndRemove(admin_id, function (err) {
         if (err) { 
-            res.send({
+            res.json({
                 status: 1,
-                massage: 'Delete failed!',
+                massage: err,
             })
             return next(err);
          }
         // Successful, so render.
-        res.send({
+        res.json({
             status: 0,
             massage: 'Delete sucess.',
         })

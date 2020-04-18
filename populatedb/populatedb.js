@@ -69,8 +69,8 @@ function createAdmin(cb) {
     //     cb);
 }
 
-function merchantCreate(shop_name,register_date, address, introduction, cb) {
-    merchantdetail = { shop_name, register_date, address, introduction }
+function merchantCreate(shop_name,register_date, address, phone,introduction, cb) {
+    const merchantdetail = { shop_name, register_date, address, phone,introduction }
 
     var merchant = new Merchant(merchantdetail);
 
@@ -87,6 +87,6 @@ function merchantCreate(shop_name,register_date, address, introduction, cb) {
 function createMerchant(cb) {
 
     async.eachLimit(merchantData, 10, function (item, callback) {
-        merchantCreate(item.name, item.date, item.address, item.introduction, callback);
+        merchantCreate(item.name, item.date, item.address,item.phone, item.introduction, callback);
     },cb);
 }
