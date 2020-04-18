@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:3000
+
+### 获取管理员列表
+GET {{baseUrl}}/admin/list?offset=0&limit=1
+
+### 删除管理员
+DELETE {{baseUrl}}/admin/5e970515e26a87334c4b0212

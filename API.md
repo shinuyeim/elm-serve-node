@@ -6,10 +6,11 @@ baseUrl: http://localhost:3000
 ---
 ## 目录：
 [获取管理员列表](#获取管理员列表)<br/>
+[删除管理员](#删除管理员)</br>
 [获取商家列表](#获取商家列表)<br/>
 
 ---
-## 接口列表：
+## 接口：
 
 ### 获取管理员列表
 
@@ -31,7 +32,9 @@ GET
 |offset|N    |非负整数 | 跳过数据条数 默认 0 |
 
 #### 请求示例：
-[http://localhost:3000/admin/list?offset=0&limit=1](http://localhost:3000/admin/list?offset=5&limit=1)
+```
+GET {{baseUrl}}/admin/list?offset=0&limit=1
+```
 
 #### 返回示例：
 
@@ -56,7 +59,39 @@ GET
     ]
 }
 ```
+---
+### 删除管理员
 
+#### 请求URL：
+```
+<baseUrl>/admin/:id
+```
+
+
+#### 请求方式：
+```
+DELETE
+```
+
+#### 参数类型：param
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|id    |Y       |objectID | 管理员id |
+
+#### 请求示例：
+```
+DELETE {{baseUrl}}/admin/5e970515e26a87334c4b0212
+```
+#### 返回示例：
+
+```json
+{
+  "status": 0,
+  "massage": "Delete sucess."
+}
+```
+---
 ### 获取商家列表
 
 #### 请求URL：
@@ -77,9 +112,9 @@ GET
 |offset|N    |非负整数 | 跳过数据条数 默认 0 |
 
 #### 请求示例：
-[http://localhost:3000/merchant/all?offset=0&limit=20](http://localhost:3000/merchant/all?offset=0&limit=1)
-
-
+```
+GET {{baseUrl}}/merchant/all?offset=0&limit=1
+```
 #### 返回示例：
 
 ```json

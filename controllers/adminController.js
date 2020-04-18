@@ -6,7 +6,7 @@ exports.admin_list = function (req, res, next) {
     // res.send("GET admin/all not complete!");
     const { limit = 20, offset = 0 } = req.query;
 
-    async.series({
+    async.parallel({
         total_count: function (callback) {
             Admin.count().exec(callback)
         },
@@ -18,18 +18,38 @@ exports.admin_list = function (req, res, next) {
                 .exec(callback)
         },
     }, function (err, result) {
-            if (err) { 
-                return next(err); }
-            // Successful, so render.
-            res.json({
-                metadata: {
-                    Total: result.total_count,
-                    Limit: Number(limit),
-                    LimitOffset: Number(offset),
-                    ReturnedRows: result.list_admins.length,
-                },
-                data: result.list_admins,
-            })
-        }
+        if (err) { return next(err); }
+        // Successful, so render.
+        res.json({
+            metadata: {
+                Total: result.total_count,
+                Limit: Number(limit),
+                LimitOffset: Number(offset),
+                ReturnedRows: result.list_admins.length,
+            },
+            data: result.list_admins,
+        })
+    }
     )
 };
+
+exports.admin_delete = function (req, res, next) {
+    const admin_id = req.params.id;
+
+    Admin.findByIdAndRemove(admin_id, function (err) {
+        if (err) { 
+            res.send({
+                status: 1,
+                massage: 'Delete failed!',
+            })
+            return next(err);
+         }
+        // Successful, so render.
+        res.send({
+            status: 0,
+            massage: 'Delete sucess.',
+        })
+    });
+
+
+}
