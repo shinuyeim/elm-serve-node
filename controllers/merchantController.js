@@ -1,27 +1,35 @@
 var Merchant = require('../models/merchant/merchant');
 const validator = require('express-validator');
+var async = require('async')
 
 // Display list of all merchants.
 exports.merchant_list = function (req, res, next) {
     const { limit = 20, offset = 0 } = req.query;
 
-    Merchant.find()
-        .sort([['shop_name', 'ascending']])
-        .skip(Number(offset))
-        .limit(Number(limit))
-        .exec(function (err, list_merchants) {
-            if (err) { return next(err); }
-            // Successful, so render.
-            res.status(200).json({
-                requst_metadata: {
-                    Total: list_merchants.length,
-                    Limit: Number(limit),
-                    LimitOffset: Number(offset),
-                    ReturnedRows: list_merchants.length,
-                },
-                data: list_merchants,
-            })
+    async.parallel({
+        total_count: function (callback) {
+            Merchant.countDocuments().exec(callback)
+        },
+        list_merchants: function (callback) {
+            Merchant.find()
+                .sort({ 'register_date': 'descending' })
+                .skip(Number(offset))
+                .limit(Number(limit))
+                .exec(callback)
+        }
+    }, function (err, result) {
+        if (err) { return next(err); }
+        res.status(200).json({
+            metadata: {
+                Total: result.total_count,
+                Limit: Number(limit),
+                LimitOffset: Number(offset),
+                ReturnedRows: result.list_merchants.length
+            },
+            data: result.list_merchants
         })
+    }
+    )
 
 };
 

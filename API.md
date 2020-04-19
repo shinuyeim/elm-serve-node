@@ -140,8 +140,8 @@ GET {{baseUrl}}/v1/merchants?offset=0&limit=1
 
 ```json
 {
-  "requst_metadata": {
-    "Total": 1,
+  "metadata": {
+    "Total": 55,
     "Limit": 1,
     "LimitOffset": 0,
     "ReturnedRows": 1

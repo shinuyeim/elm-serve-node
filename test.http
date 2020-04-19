@@ -7,7 +7,6 @@ GET {{baseUrl}}/admins?offset=0&limit=1
 DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
 
 ### 获取商家列表
-# TODO:商家列表总数量待修复
 GET {{baseUrl}}/v1/merchants?offset=0&limit=1
 
 ### 获取商家信息

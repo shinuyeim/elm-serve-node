@@ -14,7 +14,7 @@ const introductiones = ["“同福客栈”是电视剧《武林外传》中的�
   "盒马是阿里巴巴集团旗下，以数据和技术驱动的新零售平台。盒马希望为消费者打造社区化的一站式新零售体验中心，用科技和人情味带给人们“鲜美生活”。"
 ];
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 55; i++) {
   const name = names[(Math.floor(Math.random() * 4))];
   const date = moment(dateNow).subtract((Math.floor(Math.random() * 900) + 10), 'days');
   const address = address1[(Math.floor(Math.random() * 4))] + address2[(Math.floor(Math.random() * 4))] + (Math.floor(Math.random() * 900) + 100) + "号";

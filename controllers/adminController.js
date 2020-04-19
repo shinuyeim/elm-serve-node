@@ -12,7 +12,7 @@ exports.admin_list = function (req, res, next) {
         },
         list_admins: function (callback) {
             Admin.find()
-                .sort([['user_name', 'ascending']])
+                .sort({ 'user_name': 'ascending' })
                 .skip(Number(offset))
                 .limit(Number(limit))
                 .exec(callback)
@@ -37,12 +37,12 @@ exports.admin_delete = function (req, res, next) {
     const admin_id = req.params.id;
 
     Admin.findByIdAndRemove(admin_id, function (err) {
-        if (err) { 
+        if (err) {
             res.status(500).json({
                 massage: err,
             })
             return next(err);
-         }
+        }
         // Successful, so render.
         res.status(204).send();
     });
