@@ -20,3 +20,15 @@ Content-Type: application/json
     "phone":"18446905856",
     "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
 } 
+
+### 更新商家
+PUT {{baseUrl}}/merchant/5e9bc3a10715443524d35b38
+Content-Type: application/json
+
+{
+    "shop_name":"同福客栈",
+    "register_date":"2018-04-18T13:52:39",
+    "address":"西湖路万达广场B1层436号",
+    "phone":"18725451268",
+    "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
+} 

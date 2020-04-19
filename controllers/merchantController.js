@@ -100,3 +100,56 @@ exports.merchant_create = [
         }
     }
 ];
+
+exports.merchant_update = [
+    // Validate fields.
+    validator.body('shop_name').not().isEmpty().trim().withMessage('shop_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('address').not().isEmpty().trim().withMessage('address must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('register_date').isISO8601().toDate(),
+    validator.body('phone').isMobilePhone(['zh-CN']).trim().escape(),
+    validator.body('introduction').isLength({ max: 200 }).trim().withMessage(' length exceed.').escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validator.validationResult(req);
+
+        // Create a Merchant object with escaped/trimmed data and old id.
+        const merchant = new Merchant(
+            {
+                shop_name: req.body.shop_name,
+                register_date: req.body.register_date,
+                address: req.body.address,
+                phone: req.body.phone,
+                introduction: req.body.introduction,
+                _id: req.params.id
+            }
+        );
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/errors messages.
+            res.json({
+                status: 1,
+                massage: errors,
+            })
+            return;
+        }
+        else {
+            // Data is valid. Update the record.
+            Merchant.findByIdAndUpdate(req.params.id, merchant, {}, function (err) {
+                if (err) {
+                    res.json({
+                        status: 1,
+                        massage: err,
+                    })
+                    return next(err);
+                }
+                // Successful 
+                res.json({
+                    status: 0,
+                    massage: 'Update sucess.',
+                })
+            });
+        }
+    }
+];

@@ -12,4 +12,7 @@ router.delete('/:id',merchant_controller.merchant_delete);
 // POST request for creating Merchant.
 router.post('/create', merchant_controller.merchant_create);
 
+// POST request to update Merchant.
+router.put('/:id', merchant_controller.merchant_update);
+
 module.exports = router;
