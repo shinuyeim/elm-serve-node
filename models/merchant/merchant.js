@@ -13,8 +13,8 @@ const MerchantSchema = new Schema({
 	introduction: { type: String, maxlength: 200 },
 });
 
-MerchantSchema.virtual('register_date_yyyy_mm_dd').get(function () {
-	return moment(this.register_date).format('YYYY-MM-DD');
-});
+// MerchantSchema.virtual('register_date_yyyy_mm_dd').get(function () {
+// 	return moment(this.register_date).format('YYYY-MM-DD');
+// });
 
 module.exports = mongoose.model('Merchant', MerchantSchema);

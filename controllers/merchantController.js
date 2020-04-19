@@ -43,7 +43,6 @@ exports.merchant_info = function (req, res, next) {
 
 };
 
-
 exports.merchant_delete = function (req, res, next) {
     const merchant_id = req.params.id;
 

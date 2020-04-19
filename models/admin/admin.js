@@ -14,23 +14,23 @@ const AdminSchema = new Schema({
     privilege: { type: Number, max: 1, min: 0, required: true, default: 1 } //权限：0代表超级管理员，1代表管理员
 })
 
-AdminSchema.virtual('register_date_yyyy_mm_dd').get(function () {
-    return moment(this.register_date).format('YYYY-MM-DD');
-});
+// AdminSchema.virtual('register_date_yyyy_mm_dd').get(function () {
+//     return moment(this.register_date).format('YYYY-MM-DD');
+// });
 
-AdminSchema.virtual('privilege_str').get(function () {
-    let privilege_str = '';
+// AdminSchema.virtual('privilege_str').get(function () {
+//     let privilege_str = '';
 
-    switch (this.privilege) {
-        case 0:
-            privilege_str = "超级管理员";
-            break;
-        case 1:
-            privilege_str = "管理员";
-            break;
-    }
+//     switch (this.privilege) {
+//         case 0:
+//             privilege_str = "超级管理员";
+//             break;
+//         case 1:
+//             privilege_str = "管理员";
+//             break;
+//     }
 
-    return privilege_str;
-});
+//     return privilege_str;
+// });
 
 module.exports = mongoose.model('Admin', AdminSchema);
