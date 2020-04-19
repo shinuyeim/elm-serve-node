@@ -8,7 +8,7 @@ exports.admin_list = function (req, res, next) {
 
     async.parallel({
         total_count: function (callback) {
-            Admin.count().exec(callback)
+            Admin.countDocuments().exec(callback)
         },
         list_admins: function (callback) {
             Admin.find()
