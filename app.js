@@ -4,9 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+// var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
-var merchantRouter = require('./routes/merchant');
+var v1Router = require('./routes/v1');
 
 var app = express();
 
@@ -45,9 +45,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/admin', adminRouter);
-app.use('/merchant', merchantRouter);
+// app.use('/', indexRouter);
+app.use('/admins', adminRouter);
+app.use('/v1',v1Router);
 
 // catch 404 and forward to error handler
 // 捕获 404 并抛给错误处理器

@@ -20,6 +20,7 @@ DELETE：用于删除资源。
 [删除管理员](#删除管理员)</br>
 
 [获取商家列表](#获取商家列表)</br>
+[获取商家信息](#获取商家信息)</br>
 [删除商家](#删除商家)</br>
 [新增商家](#新增商家)</br>
 [更新商家](#更新商家)</br>
@@ -38,7 +39,7 @@ baseUrl: http://localhost:3000
 
 #### 请求URL：
 ```
-<baseUrl>/admin/list
+<baseUrl>/admins
 ```
 
 #### 请求方式：
@@ -55,30 +56,30 @@ GET
 
 #### 请求示例：
 ```
-GET {{baseUrl}}/admin/list?offset=0&limit=1
+GET {{baseUrl}}/admins?offset=0&limit=1
 ```
 
 #### 返回示例：
 
 ```json
 {
-    "metadata": {
-        "Total": 60,
-        "Limit": 1,
-        "LimitOffset": 5,
-        "ReturnedRows": 1
-    },
-    "data": [
-        {
-            "privilege": 1,
-            "_id": "5e970516e26a87334c4b0241",
-            "user_name": "刘浩杰",
-            "password": "59WBLZ>AT7",
-            "register_date": "2019-09-09T00:00:00.000Z",
-            "city": "深圳",
-            "__v": 0
-        }
-    ]
+  "metadata": {
+    "Total": 60,
+    "Limit": 1,
+    "LimitOffset": 0,
+    "ReturnedRows": 1
+  },
+  "data": [
+    {
+      "privilege": 1,
+      "_id": "5e9bd7dceddc242a34db862d",
+      "user_name": "刘梓宇",
+      "password": "QJGGCV",
+      "register_date": "2020-03-02T00:00:00.000Z",
+      "city": "广州",
+      "__v": 0
+    }
+  ]
 }
 ```
 ---
@@ -86,7 +87,7 @@ GET {{baseUrl}}/admin/list?offset=0&limit=1
 
 #### 请求URL：
 ```
-<baseUrl>/admin/:id
+<baseUrl>/admins/:id
 ```
 
 
@@ -103,23 +104,20 @@ DELETE
 
 #### 请求示例：
 ```
-DELETE {{baseUrl}}/admin/5e970515e26a87334c4b0212
+DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
 ```
 #### 返回示例：
 
-```json
-{
-  "status": 0,
-  "massage": "Delete sucess."
-}
 ```
----
+204 No Content
+```
 
+---
 ### 获取商家列表
 
 #### 请求URL：
 ```
-<baseUrl>/merchant/all
+<baseUrl>/v1/merchants
 ```
 
 #### 请求方式：
@@ -136,36 +134,78 @@ GET
 
 #### 请求示例：
 ```
-GET {{baseUrl}}/merchant/all?offset=0&limit=1
+GET {{baseUrl}}/v1/merchants?offset=0&limit=1
 ```
 #### 返回示例：
 
 ```json
 {
-    "requst_metadata": {
-        "Total": 1,
-        "Limit": 1,
-        "LimitOffset": 0,
-        "ReturnedRows": 1
-    },
-    "data": [
-        {
-            "_id": "5e970516e26a87334c4b0250",
-            "shop_name": "同福客栈",
-            "register_date": "2018-03-08T00:00:00.000Z",
-            "address": "长寿路189弄购物中心456号",
-            "__v": 0
-        }
-    ]
+  "requst_metadata": {
+    "Total": 1,
+    "Limit": 1,
+    "LimitOffset": 0,
+    "ReturnedRows": 1
+  },
+  "data": [
+    {
+      "_id": "5e9bd7dceddc242a34db8632",
+      "shop_name": "同福客栈",
+      "register_date": "2020-03-04T00:00:00.000Z",
+      "address": "浦东南路星空广场B1层248号",
+      "phone": "13781272526",
+      "introduction": "“同福客栈”是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。",
+      "__v": 0
+    }
+  ]
 }
 ```
----
-### 删除商家
 
+---
+### 获取商家信息
 
 #### 请求URL：
 ```
-<baseUrl>/merchant/:id
+<baseUrl>/v1/merchants/:id
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：param
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|id |Y   |objectID | 商家id |
+
+
+#### 请求示例：
+```
+GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+```
+#### 返回示例：
+
+```json
+{
+  "data": {
+    "_id": "5e9bd936f0161441ac9da486",
+    "shop_name": "同福客栈",
+    "register_date": "2018-04-18T05:52:39.000Z",
+    "address": "西湖路万达广场B1层435号",
+    "phone": "18725451286",
+    "introduction": "同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。",
+    "__v": 0
+  }
+}
+```
+
+---
+### 删除商家
+
+#### 请求URL：
+```
+<baseUrl>/v1/merchants/:id
 ```
 
 #### 请求方式：
@@ -181,15 +221,12 @@ DELETE
 
 #### 请求示例：
 ```
-DELETE {{baseUrl}}/merchant/5e970516e26a87334c4b0250
+DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
 ```
 #### 返回示例：
 
-```json
-{
-  "status": 0,
-  "massage": "Delete sucess."
-}
+```
+204 No Content
 ```
 ---
 ### 新增商家
@@ -197,7 +234,7 @@ DELETE {{baseUrl}}/merchant/5e970516e26a87334c4b0250
 
 #### 请求URL：
 ```
-<baseUrl>/merchant/create
+<baseUrl>/v1/merchants
 ```
 
 #### 请求方式：
@@ -217,7 +254,7 @@ POST
 
 #### 请求示例：
 ```
-POST {{baseUrl}}/merchant/create
+POST {{baseUrl}}/v1/merchants
 Content-Type: application/json
 
 {
@@ -229,11 +266,8 @@ Content-Type: application/json
 } 
 ```
 #### 返回示例：
-```json
-{
-  "status": 0,
-  "massage": "Create sucess."
-}
+```
+201 Created
 ```
 ---
 ### 更新商家
@@ -241,12 +275,12 @@ Content-Type: application/json
 
 #### 请求URL：
 ```
-<baseUrl>/merchant/:id
+<baseUrl>/v1/merchants/:id
 ```
 
 #### 请求方式：
 ```
-PUT
+PATCH
 ```
 
 #### 参数类型
@@ -267,23 +301,17 @@ PUT
 
 #### 请求示例：
 ```
-PUT {{baseUrl}}/merchant/:id
+PATCH  {{baseUrl}}/v1/merchants/5e9c00b934735409240ca51a
 Content-Type: application/json
 
 {
-    "shop_name":"同福客栈",
-    "register_date":"2020-04-18T13:52:39",
     "address":"西湖路万达广场B1层436号",
-    "phone":"18446905856",
-    "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
+    "phone":"18725451268"
 } 
 ```
 #### 返回示例：
-```json
-{
-  "status": 0,
-  "massage": "Updata sucess."
-}
+```
+200 OK
 ```
 ---
 

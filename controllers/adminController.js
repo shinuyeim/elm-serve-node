@@ -20,7 +20,7 @@ exports.admin_list = function (req, res, next) {
     }, function (err, result) {
         if (err) { return next(err); }
         // Successful, so render.
-        res.json({
+        res.status(200).json({
             metadata: {
                 Total: result.total_count,
                 Limit: Number(limit),
@@ -38,16 +38,12 @@ exports.admin_delete = function (req, res, next) {
 
     Admin.findByIdAndRemove(admin_id, function (err) {
         if (err) { 
-            res.json({
-                status: 1,
+            res.status(500).json({
                 massage: err,
             })
             return next(err);
          }
         // Successful, so render.
-        res.json({
-            status: 0,
-            massage: 'Delete sucess.',
-        })
+        res.status(204).send();
     });
 }

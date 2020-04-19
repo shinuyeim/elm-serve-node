@@ -12,7 +12,7 @@ exports.merchant_list = function (req, res, next) {
         .exec(function (err, list_merchants) {
             if (err) { return next(err); }
             // Successful, so render.
-            res.json({
+            res.status(200).json({
                 requst_metadata: {
                     Total: list_merchants.length,
                     Limit: Number(limit),
@@ -25,22 +25,37 @@ exports.merchant_list = function (req, res, next) {
 
 };
 
-exports.merchant_delete = function (req, res, next) {
+exports.merchant_info = function (req, res, next) {
     const merchant_id = req.params.id;
 
-    Merchant.findByIdAndRemove(merchant_id, function (err) {
+    Merchant.findById(merchant_id, function (err, merchant) {
         if (err) {
-            res.json({
-                status: 1,
+            res.status(500).json({
                 massage: err,
             })
             return next(err);
         }
         // Successful, so render.
-        res.json({
-            status: 0,
-            massage: 'Delete sucess.',
+        res.status(200).json({
+            data: merchant,
         })
+    })
+
+};
+
+
+exports.merchant_delete = function (req, res, next) {
+    const merchant_id = req.params.id;
+
+    Merchant.findByIdAndRemove(merchant_id, function (err) {
+        if (err) {
+            res.status(500).json({
+                massage: err,
+            })
+            return next(err);
+        }
+        // Successful, so render.
+        res.status(204).send();
     });
 }
 
@@ -60,42 +75,36 @@ exports.merchant_create = [
         // Extract the validation errors from a request.
         const errors = validator.validationResult(req);
 
-        // Create Merchant object with escaped and trimmed data
-        const merchant = new Merchant(
-            {
-                shop_name: req.body.shop_name,
-                register_date: req.body.register_date,
-                address: req.body.address,
-                phone: req.body.phone,
-                introduction: req.body.introduction
-            }
-        );
-
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.json({
-                status: 1,
+            res.status(500).json({
                 massage: errors,
             })
             return;
         }
         else {
             // Data from form is valid.
+            // Create Merchant object with escaped and trimmed data
+            const merchant = new Merchant(
+                {
+                    shop_name: req.body.shop_name,
+                    register_date: req.body.register_date,
+                    address: req.body.address,
+                    phone: req.body.phone,
+                    introduction: req.body.introduction
+                }
+            );
 
             // Save merchant.
             merchant.save(function (err) {
                 if (err) {
-                    res.json({
-                        status: 1,
+                    res.status(500).json({
                         massage: err,
                     })
                     return next(err);
                 }
                 // Successful - redirect to new merchant record.
-                res.json({
-                    status: 0,
-                    massage: 'Create sucess.',
-                })
+                res.status(201).send();
             });
         }
     }
@@ -103,52 +112,37 @@ exports.merchant_create = [
 
 exports.merchant_update = [
     // Validate fields.
-    validator.body('shop_name').not().isEmpty().trim().withMessage('shop_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('address').not().isEmpty().trim().withMessage('address must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('register_date').isISO8601().toDate(),
-    validator.body('phone').isMobilePhone(['zh-CN']).trim().escape(),
-    validator.body('introduction').isLength({ max: 200 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('shop_name').if((value, { req }) => req.body.shop_name).not().isEmpty().trim().withMessage('shop_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('register_date').if((value, { req }) => req.body.register_date).isISO8601().toDate(),
+    validator.body('address').if((value, { req }) => req.body.address).not().isEmpty().trim().withMessage('address must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('phone').if((value, { req }) => req.body.phone).isMobilePhone(['zh-CN']).trim().escape(),
+    validator.body('introduction').if((value, { req }) => req.body.introduction).isLength({ max: 200 }).trim().withMessage(' length exceed.').escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
         // Extract the validation errors from a request.
+
         const errors = validator.validationResult(req);
 
-        // Create a Merchant object with escaped/trimmed data and old id.
-        const merchant = new Merchant(
-            {
-                shop_name: req.body.shop_name,
-                register_date: req.body.register_date,
-                address: req.body.address,
-                phone: req.body.phone,
-                introduction: req.body.introduction,
-                _id: req.params.id
-            }
-        );
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.json({
-                status: 1,
+            res.status(500).json({
                 massage: errors,
             })
             return;
         }
         else {
             // Data is valid. Update the record.
-            Merchant.findByIdAndUpdate(req.params.id, merchant, {}, function (err) {
+            Merchant.findByIdAndUpdate(req.params.id, req.body, {}, function (err) {
                 if (err) {
-                    res.json({
-                        status: 1,
+                    res.status(500).json({
                         massage: err,
                     })
                     return next(err);
                 }
                 // Successful 
-                res.json({
-                    status: 0,
-                    massage: 'Update sucess.',
-                })
+                res.status(200).send();
             });
         }
     }

@@ -4,16 +4,16 @@
 GET {{baseUrl}}/admins?offset=0&limit=1
 
 ### 删除管理员
-DELETE {{baseUrl}}/admins/5e970515e26a87334c4b0212
+DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
 
 ### 获取商家列表
 GET {{baseUrl}}/v1/merchants?offset=0&limit=1
 
 ### 获取商家信息
-GET {{baseUrl}}/v1/merchants/5e970516e26a87334c4b0250
+GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
 
 ### 删除商家
-DELETE {{baseUrl}}/v1/merchants/5e970516e26a87334c4b0250
+DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
 
 ### 新建商家
 POST {{baseUrl}}/v1/merchants
@@ -28,10 +28,10 @@ Content-Type: application/json
 } 
 
 ### 更新商家
-PATCH {{baseUrl}}/v1/merchants/5e9bc3a10715443524d35b38
+PATCH  {{baseUrl}}/v1/merchants/5e9c00b934735409240ca51a
 Content-Type: application/json
 
 {
     "address":"西湖路万达广场B1层436号",
-    "phone":"18725451268",
- } 
+    "phone":"18725451268"
+} 
