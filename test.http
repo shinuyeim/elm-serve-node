@@ -1,16 +1,22 @@
 @baseUrl = http://localhost:3000
 
 ### 获取管理员列表
-GET {{baseUrl}}/admin/list?offset=0&limit=1
+GET {{baseUrl}}/admins?offset=0&limit=1
 
 ### 删除管理员
-DELETE {{baseUrl}}/admin/5e970515e26a87334c4b0212
+DELETE {{baseUrl}}/admins/5e970515e26a87334c4b0212
+
+### 获取商家列表
+GET {{baseUrl}}/v1/merchants?offset=0&limit=1
+
+### 获取商家信息
+GET {{baseUrl}}/v1/merchants/5e970516e26a87334c4b0250
 
 ### 删除商家
-DELETE {{baseUrl}}/merchant/5e970516e26a87334c4b0250
+DELETE {{baseUrl}}/v1/merchants/5e970516e26a87334c4b0250
 
 ### 新建商家
-POST {{baseUrl}}/merchant/create
+POST {{baseUrl}}/v1/merchants
 Content-Type: application/json
 
 {
@@ -22,13 +28,10 @@ Content-Type: application/json
 } 
 
 ### 更新商家
-PUT {{baseUrl}}/merchant/5e9bc3a10715443524d35b38
+PATCH {{baseUrl}}/v1/merchants/5e9bc3a10715443524d35b38
 Content-Type: application/json
 
 {
-    "shop_name":"同福客栈",
-    "register_date":"2018-04-18T13:52:39",
     "address":"西湖路万达广场B1层436号",
     "phone":"18725451268",
-    "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
-} 
+ } 

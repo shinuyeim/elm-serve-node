@@ -1,10 +1,21 @@
-# node-elm 接口文档
+# elm-server RESTful API
+
+## 设计指南
+* URL定位资源，method定义动作
+* 使用名词复数形式来描述资源
+* 不要嵌套资源
+* 在响应中返回错误详情
 ```
-baseUrl: http://localhost:3000
+GET：用于检索资源。
+POST：用于创建资源。
+PUT：用于替换资源或集合。
+PATCH：用于通过部分JSON数据更新资源。
+DELETE：用于删除资源。
 ```
+参考[GitHub REST API v3](https://developer.github.com/v3/)
 
 ---
-## 目录：
+## 接口目录：
 [获取管理员列表](#获取管理员列表)<br/>
 [删除管理员](#删除管理员)</br>
 
@@ -16,6 +27,11 @@ baseUrl: http://localhost:3000
 
 ---
 ## 接口：
+
+### BaseUrl
+```
+baseUrl: http://localhost:3000
+```
 
 ### 获取管理员列表
 
