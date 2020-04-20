@@ -119,6 +119,7 @@ exports.merchant_create = [
 
 exports.merchant_update = [
     // Validate fields.
+    validator.body('_id').not().exists(),
     validator.body('shop_name').if((value, { req }) => req.body.shop_name).not().isEmpty().trim().withMessage('shop_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
     validator.body('register_date').if((value, { req }) => req.body.register_date).isISO8601().toDate(),
     validator.body('address').if((value, { req }) => req.body.address).not().isEmpty().trim().withMessage('address must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),

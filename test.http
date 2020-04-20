@@ -28,7 +28,7 @@ Content-Type: application/json
 } 
 
 ### 更新商家
-PATCH  {{baseUrl}}/v1/merchants/5e9c00b934735409240ca51a
+PATCH  {{baseUrl}}/v1/merchants/5e9d291c08d9cf3a8878babb
 Content-Type: application/json
 
 {
