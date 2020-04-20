@@ -15,6 +15,6 @@ router.delete('/merchants/:id',merchant_controller.merchant_delete);
 router.post('/merchants', merchant_controller.merchant_create);
 
 
-router.patch('/merchants/:id', merchant_controller.merchant_update);
+router.put('/merchants/:id', merchant_controller.merchant_update);
 
 module.exports = router;
