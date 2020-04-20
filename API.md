@@ -74,7 +74,6 @@ GET {{baseUrl}}/admins?offset=0&limit=1
       "privilege": 1,
       "_id": "5e9bd7dceddc242a34db862d",
       "user_name": "刘梓宇",
-      "password": "QJGGCV",
       "register_date": "2020-03-02T00:00:00.000Z",
       "city": "广州",
       "__v": 0

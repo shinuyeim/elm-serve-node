@@ -11,7 +11,7 @@ exports.admin_list = function (req, res, next) {
             Admin.countDocuments().exec(callback)
         },
         list_admins: function (callback) {
-            Admin.find()
+            Admin.find({},{password:0})
                 .sort({ 'user_name': 'ascending' })
                 .skip(Number(offset))
                 .limit(Number(limit))
