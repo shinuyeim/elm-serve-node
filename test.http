@@ -1,5 +1,34 @@
 @baseUrl = http://localhost:3000
 
+### 管理员注册
+POST {{baseUrl}}/admins/register
+Content-Type: application/json
+
+{
+  "user_name": "user3",
+  "password": "12345678"
+}
+
+// TODO: 登录成功返回token
+### 管理员登录
+POST {{baseUrl}}/admins/login
+Content-Type: application/json
+
+{
+  "user_name": "user1",
+  "password": "123456"
+}
+
+// TODO: 利用token信息更新
+### 管理员信息更新
+PUT {{baseUrl}}/admins/5e9e9886696df92e9c96be67
+Content-Type: application/json
+
+{
+  "password": "123456",
+  "city":"上海"
+}
+
 ### 获取管理员列表
 GET {{baseUrl}}/admins?offset=0&limit=1
 

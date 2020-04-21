@@ -16,6 +16,10 @@ DELETE：用于删除资源。
 
 ---
 ## 接口目录：
+[管理员注册](#管理员注册)</br>
+[管理员登录](#管理员登录)</br>
+[管理员信息变更](#管理员信息变更)</br>
+
 [获取管理员列表](#获取管理员列表)<br/>
 [删除管理员](#删除管理员)</br>
 
@@ -25,17 +29,126 @@ DELETE：用于删除资源。
 [新增商家](#新增商家)</br>
 [更新商家](#更新商家)</br>
 
-
 ---
+
 ## 接口：
 
 ### BaseUrl
 ```
 baseUrl: http://localhost:3000
 ```
+### 管理员注册
+
+#### 请求URL：
+```
+<baseUrl>/admins/register
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：query
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|user_name|Y   |String | 注册用户名 |
+|password|Y   |String | 用户密码   |
+
+#### 请求示例：
+```
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "123456"
+}
+```
+
+#### 返回示例：
+
+```json
+201 Created
+```
+---
+
+### 管理员登录
+#### 请求URL：
+```
+<baseUrl>/admins/login
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：query
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|user_name|Y   |String | 注册用户名 |
+|password|Y   |String | 用户密码   |
+
+#### 请求示例：
+```
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "123456"
+}
+```
+
+#### 返回示例：
+
+```json
+200 OK
+```
+---
+
+### 管理员信息变更
+#### 请求URL：
+```
+<baseUrl>/admins/:id
+```
+
+#### 请求方式：
+```
+PUT
+```
+
+#### 参数类型：query
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|user_name    |Y   |String     | 注册用户名 |
+|password     |N   |String     | 用户密码   |
+|register_date|N   |ISO8601Date| 注册时间   |
+|city         |N   |String     | 注册城市   |
+
+#### 请求示例：
+```
+PUT {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "123456"
+}
+```
+
+#### 返回示例：
+
+```json
+200 OK
+```
+---
 
 ### 获取管理员列表
-
 
 #### 请求URL：
 ```

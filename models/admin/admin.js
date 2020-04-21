@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var moment = require('moment');
+// var moment = require('moment');
 
 const Schema = mongoose.Schema;
 
@@ -9,7 +9,7 @@ const AdminSchema = new Schema({
     user_name: { type: String, required: true, maxlength: 20, unique: true },
     // user_name: { type: String, required: true, maxlength: 20 },
     password: { type: String, required: true, maxlength: 16 },
-    register_date: { type: Date },
+    register_date: { type: Date, default: new Date() },
     city: { type: String, maxlength: 60 },
     privilege: { type: Number, max: 1, min: 0, required: true, default: 1 } //权限：0代表超级管理员，1代表管理员
 })
