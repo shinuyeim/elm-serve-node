@@ -38,9 +38,6 @@ exports.merchant_info = function (req, res, next) {
 
     Merchant.findById(merchant_id, function (err, merchant) {
         if (err) {
-            res.status(500).json({
-                massage: err,
-            })
             return next(err);
         }
         // Successful, so render.
@@ -56,9 +53,6 @@ exports.merchant_delete = function (req, res, next) {
 
     Merchant.findByIdAndRemove(merchant_id, function (err) {
         if (err) {
-            res.status(500).json({
-                massage: err,
-            })
             return next(err);
         }
         // Successful, so render.
@@ -84,10 +78,7 @@ exports.merchant_create = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.status(500).json({
-                massage: errors,
-            })
-            return;
+            return res.status(422).next(errors);
         }
         else {
             // Data from form is valid.
@@ -105,9 +96,6 @@ exports.merchant_create = [
             // Save merchant.
             merchant.save(function (err) {
                 if (err) {
-                    res.status(500).json({
-                        massage: err,
-                    })
                     return next(err);
                 }
                 // Successful - redirect to new merchant record.
@@ -135,18 +123,12 @@ exports.merchant_update = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.status(500).json({
-                massage: errors,
-            })
-            return;
+            return res.status(422).next(errors);
         }
         else {
             // Data is valid. Update the record.
             Merchant.findByIdAndUpdate(req.params.id, req.body, {}, function (err) {
                 if (err) {
-                    res.status(500).json({
-                        massage: err,
-                    })
                     return next(err);
                 }
                 // Successful 

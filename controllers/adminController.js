@@ -39,9 +39,6 @@ exports.admin_delete = function (req, res, next) {
 
     Admin.findByIdAndRemove(admin_id, function (err) {
         if (err) {
-            res.status(500).json({
-                massage: err,
-            })
             return next(err);
         }
         // Successful, so render.
@@ -64,17 +61,14 @@ exports.admin_create = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.status(500).json({
-                massage: errors,
-            })
-            return;
+            return next(err);
         }
 
         // Data from form is valid.
         Admin.count({ user_name: req.body.user_name }).then(
             (existAdminCount) => {
                 if (existAdminCount > 0) {
-                    res.status(500).json({
+                    res.status(422).json({
                         massage: "user_name existed!",
                     })
                     return;
@@ -94,9 +88,9 @@ exports.admin_create = [
                 // Save admin.
                 admin.save(function (err) {
                     if (err) {
-                        res.status(500).json({
-                            massage: err,
-                        })
+                        // res.status(500).json({
+                        //     massage: err,
+                        // })
                         return next(err);
                     }
                     // Successful - redirect to new admin record.
@@ -122,23 +116,19 @@ exports.admin_login = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.status(500).json({
-                massage: errors,
-            })
-            return;
+            return res.status(422).next(errors);
         }
 
         Admin.findOne({ user_name: req.body.user_name }).then(
-            (existedName)=>{
-                if(!existedName){
-                    res.status(401).send({
-                        massage:"this user not existed!"
+            (existedAdmin) => {
+                if (!existedAdmin) {
+                    return res.status(422).send({
+                        massage: "this user not existed!"
                     })
-                    return;
                 }
-                if(req.body.password !== existedName.password){
-                    res.status(401).send({
-                        massage:"password not true!"
+                if (req.body.password !== existedAdmin.password) {
+                    res.status(422).send({
+                        massage: "password not true!"
                     })
                 }
                 res.status(200).send();
@@ -165,18 +155,12 @@ exports.admin_update = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.status(500).json({
-                massage: errors,
-            })
-            return;
+            return res.status(422).next(errors);
         }
         else {
             // Data is valid. Update the record.
             Admin.findByIdAndUpdate(req.params.id, req.body, {}, function (err) {
                 if (err) {
-                    res.status(500).json({
-                        massage: err,
-                    })
                     return next(err);
                 }
                 // Successful 
