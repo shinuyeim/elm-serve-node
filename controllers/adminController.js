@@ -131,13 +131,13 @@ exports.admin_login = [
         Admin.findOne({ user_name: req.body.user_name }).then(
             (existedName)=>{
                 if(!existedName){
-                    res.status(422).send({
+                    res.status(401).send({
                         massage:"this user not existed!"
                     })
                     return;
                 }
                 if(req.body.password !== existedName.password){
-                    res.status(422).send({
+                    res.status(401).send({
                         massage:"password not true!"
                     })
                 }

@@ -108,6 +108,9 @@ Content-Type: application/json
 ```json
 200 OK
 ```
+>`401 Unauthorized` 未认证，用户没有有效身份信息。<br>
+>`403 Forbidden` 未授权，用户身份有效，但是权限不够。
+
 ---
 
 ### 管理员信息变更
