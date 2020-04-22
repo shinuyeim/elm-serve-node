@@ -78,7 +78,7 @@ exports.merchant_create = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            return res.status(422).next(errors);
+            return res.status(422).send(errors);
         }
         else {
             // Data from form is valid.
@@ -123,7 +123,7 @@ exports.merchant_update = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            return res.status(422).next(errors);
+            return res.status(422).send(errors);
         }
         else {
             // Data is valid. Update the record.

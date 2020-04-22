@@ -9,23 +9,28 @@ Content-Type: application/json
   "password": "12345678"
 }
 
-// TODO: 登录成功返回token
 ### 管理员登录
 POST {{baseUrl}}/admins/login
 Content-Type: application/json
 
 {
   "user_name": "user2",
-  "password": "1234568"
+  "password": "123456"
 }
 
-// TODO: 利用token信息更新
-### 管理员信息更新
-PUT {{baseUrl}}/admins/5e9e9886696df92e9c96be67
-Content-Type: application/json
+### 获取管理员信息
+GET {{baseUrl}}/admins/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2NDM5MCwiZXhwIjoxNTg4MTY5MTkwfQ.sYY1BMNPWeDztKMw051j9-H-JRPR_-gnlwuBqKBphoY
 
-{
-  "password": "123456",
+### 更新管理员信息
+PUT {{baseUrl}}/admins/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2ODA2MywiZXhwIjoxNTg4MTcyODYzfQ.OQJTwvvfEZkS_HG6Xq4EfywaeFMzUYkEIs2ZnVaOokg
+
+{ 
+  "password":"123456",
+  "new_password":"123456",
+  "user_name":"user2",
   "city":"上海"
 }
 

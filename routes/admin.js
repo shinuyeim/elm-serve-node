@@ -14,6 +14,8 @@ router.post('/register',admin_controller.admin_create);
 
 router.post('/login',admin_controller.admin_login);
 
-router.put('/:id',admin_controller.admin_update);
+router.put('/profile',admin_controller.admin_update);
+
+router.get('/profile',admin_controller.admin_profile);
 
 module.exports = router;

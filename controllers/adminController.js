@@ -1,6 +1,8 @@
 var Admin = require('../models/admin/admin');
 const validator = require('express-validator');
-var async = require('async')
+var async = require('async');
+const jwt = require('jsonwebtoken');
+const SECRET = 'token_secret';
 
 // Display list of all admins.
 exports.admin_list = function (req, res, next) {
@@ -32,7 +34,7 @@ exports.admin_list = function (req, res, next) {
         })
     }
     )
-};
+}
 
 exports.admin_delete = function (req, res, next) {
     const admin_id = req.params.id;
@@ -116,7 +118,7 @@ exports.admin_login = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            return res.status(422).next(errors);
+            return res.status(422).send(errors);
         }
 
         Admin.findOne({ user_name: req.body.user_name }).then(
@@ -136,7 +138,8 @@ exports.admin_login = [
                         massage: "password not valid!"
                     })
                 }
-                res.status(200).send();
+                const token = jwt.sign({ id: String(existedAdmin._id) }, SECRET, { expiresIn: '7d' });
+                res.status(200).send(token);
             }
         )
     }
@@ -145,11 +148,10 @@ exports.admin_login = [
 exports.admin_update = [
     // Validate fields.
     validator.body('_id').not().exists(),
-    validator.body('shop_name').if((value, { req }) => req.body.shop_name).not().isEmpty().trim().withMessage('shop_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('register_date').if((value, { req }) => req.body.register_date).isISO8601().toDate(),
-    validator.body('address').if((value, { req }) => req.body.address).not().isEmpty().trim().withMessage('address must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('phone').if((value, { req }) => req.body.phone).isMobilePhone(['zh-CN']).trim().escape(),
-    validator.body('introduction').if((value, { req }) => req.body.introduction).isLength({ max: 200 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('password').not().isEmpty().trim().withMessage('password must be specified.').isLength({ max: 16 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('new_password').if((value, { req }) => req.body.new_password).not().isEmpty().trim().withMessage('password must be specified.').isLength({ max: 16 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('user_name').if((value, { req }) => req.body.user_name).not().isEmpty().trim().withMessage('user_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('city').if((value, { req }) => req.body.city).not().isEmpty().trim().withMessage('city must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -160,19 +162,58 @@ exports.admin_update = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            return res.status(422).next(errors);
+            return res.status(422).send(errors);
         }
         else {
             // Data is valid. Update the record.
-            Admin.findByIdAndUpdate(req.params.id, req.body, {}, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                // Successful 
-                res.status(200).send();
-            });
+            const raw = String(req.headers.authorization.split(' ').pop());
+            const { id } = jwt.verify(raw, SECRET);
+
+            Admin.findById(id)
+                .then((existedAdmin) => {
+                    if (!existedAdmin) {
+                        return res.status(422).send({
+                            massage: "this user not existed!"
+                        })
+                    }
+
+                    const isPasswordValid = require('bcryptjs').compareSync(
+                        req.body.password,
+                        existedAdmin.password
+                    )
+                    if (!isPasswordValid) {
+                        return res.status(422).send({
+                            massage: "password not valid!"
+                        })
+                    }
+
+                })
+                .then(() => {
+
+                    const admin = {};
+                    if (undefined !== req.body.user_name) { Object.assign(admin, { "user_name": req.body.user_name }) }
+                    if (undefined !== req.body.new_password) { Object.assign(admin, { "password": req.body.new_password }) }
+                    if (undefined !== req.body.city) {Object.assign(admin, { "city": req.body.city })}
+
+                    Admin.findByIdAndUpdate(id, admin, { "omitUndefined": true }, function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        // Successful
+                        return res.status(200).send();
+                    });
+                })
         }
     }
-];
+]
+
+exports.admin_profile = function (req, res, next) {
+    const raw = String(req.headers.authorization.split(' ').pop());
+    const { id } = jwt.verify(raw, SECRET);
+
+    Admin.findById(id, { password: 0 }).then((existedAdmin) => {
+        return res.status(200).send(existedAdmin);
+    });
+}
 
 

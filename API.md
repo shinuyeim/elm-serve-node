@@ -18,7 +18,8 @@ DELETE：用于删除资源。
 ## 接口目录：
 [管理员注册](#管理员注册)</br>
 [管理员登录](#管理员登录)</br>
-[管理员信息变更](#管理员信息变更)</br>
+[获取管理员信息](#获取管理员信息)<br>
+[管理员信息更新](#更新管理员信息)</br>
 
 [获取管理员列表](#获取管理员列表)<br/>
 [删除管理员](#删除管理员)</br>
@@ -105,18 +106,56 @@ Content-Type: application/json
 
 #### 返回示例：
 
-```json
+```
 200 OK
+
+<token>
 ```
 >`401 Unauthorized` 未认证，用户没有有效身份信息。<br>
 >`403 Forbidden` 未授权，用户身份有效，但是权限不够。
 
 ---
 
-### 管理员信息变更
+### 获取管理员信息
 #### 请求URL：
 ```
-<baseUrl>/admins/:id
+<baseUrl>/admins/profile
+```
+
+#### 请求方式：
+```
+GET
+```
+
+#### 参数类型：head
+
+|参数|是否必选|类型|说明|
+|:-----|:-------:|:-----|:-----|
+|token |Y   |String |  |
+
+#### 请求示例：
+```
+GET {{baseUrl}}/admins/profile
+Authorization: Bearer <token>
+```
+
+#### 返回示例：
+
+```json
+{
+  "register_date": "2020-04-22T12:03:55.464Z",
+  "privilege": 1,
+  "_id": "5ea032bd0c43a01ab026f9fe",
+  "user_name": "user2",
+  "__v": 0
+}
+```
+---
+
+### 更新管理员信息
+#### 请求URL：
+```
+<baseUrl>/admins/profile
 ```
 
 #### 请求方式：
@@ -124,23 +163,27 @@ Content-Type: application/json
 PUT
 ```
 
-#### 参数类型：query
+#### 参数类型：body
 
 |参数|是否必选|类型|说明|
 |:-----|:-------:|:-----|:-----|
-|user_name    |Y   |String     | 注册用户名 |
-|password     |N   |String     | 用户密码   |
-|register_date|N   |ISO8601Date| 注册时间   |
+|user_name    |N   |String     | 注册用户名 |
+|password     |Y   |String     | 旧密码     |
+|new_password |N   |String     | 新密码     |
 |city         |N   |String     | 注册城市   |
 
 #### 请求示例：
 ```
-PUT {{baseUrl}}/register
-Content-Type: application/json
 
-{
-  "username": "user1",
-  "password": "123456"
+PUT {{baseUrl}}/admins/profile
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{ 
+  "password":"12345678",
+  "new_password":"123456",
+  "user_name":"user2",
+  "city":"上海"
 }
 ```
 
