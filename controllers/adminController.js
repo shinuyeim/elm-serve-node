@@ -65,7 +65,7 @@ exports.admin_create = [
         }
 
         // Data from form is valid.
-        Admin.count({ user_name: req.body.user_name }).then(
+        Admin.countDocuments({ user_name: req.body.user_name }).then(
             (existAdminCount) => {
                 if (existAdminCount > 0) {
                     res.status(422).json({
@@ -126,9 +126,14 @@ exports.admin_login = [
                         massage: "this user not existed!"
                     })
                 }
-                if (req.body.password !== existedAdmin.password) {
-                    res.status(422).send({
-                        massage: "password not true!"
+
+                const isPasswordValid = require('bcryptjs').compareSync(
+                    req.body.password,
+                    existedAdmin.password
+                )
+                if (!isPasswordValid) {
+                    return res.status(422).send({
+                        massage: "password not valid!"
                     })
                 }
                 res.status(200).send();

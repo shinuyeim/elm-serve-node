@@ -5,7 +5,7 @@ POST {{baseUrl}}/admins/register
 Content-Type: application/json
 
 {
-  "user_name": "user3",
+  "user_name": "user2",
   "password": "12345678"
 }
 
@@ -15,8 +15,8 @@ POST {{baseUrl}}/admins/login
 Content-Type: application/json
 
 {
-  "user_name": "user1",
-  "password": "123456"
+  "user_name": "user2",
+  "password": "1234568"
 }
 
 // TODO: 利用token信息更新
