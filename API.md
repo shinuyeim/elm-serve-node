@@ -34,9 +34,10 @@ DELETE：用于删除资源。
 
 ## 接口：
 
-### BaseUrl
+### 公共变量
 ```
 baseUrl: http://localhost:3000
+authorization = Authorization: Bearer <token>
 ```
 ### 管理员注册
 
@@ -136,7 +137,7 @@ GET
 #### 请求示例：
 ```
 GET {{baseUrl}}/admins/profile
-Authorization: Bearer <token>
+{{authorization}}
 ```
 
 #### 返回示例：
@@ -174,13 +175,12 @@ PUT
 
 #### 请求示例：
 ```
-
 PUT {{baseUrl}}/admins/profile
+{{authorization}}
 Content-Type: application/json
-Authorization: Bearer <token>
 
 { 
-  "password":"12345678",
+  "password":"123456",
   "new_password":"123456",
   "user_name":"user2",
   "city":"上海"
@@ -216,6 +216,7 @@ GET
 #### 请求示例：
 ```
 GET {{baseUrl}}/admins?offset=0&limit=1
+{{authorization}}
 ```
 
 #### 返回示例：
@@ -263,6 +264,7 @@ DELETE
 #### 请求示例：
 ```
 DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
+{{authorization}}
 ```
 #### 返回示例：
 
@@ -293,6 +295,7 @@ GET
 #### 请求示例：
 ```
 GET {{baseUrl}}/v1/merchants?offset=0&limit=1
+{{authorization}}
 ```
 #### 返回示例：
 
@@ -341,6 +344,7 @@ GET
 #### 请求示例：
 ```
 GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+{{authorization}}
 ```
 #### 返回示例：
 
@@ -380,6 +384,7 @@ DELETE
 #### 请求示例：
 ```
 DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+{{authorization}}
 ```
 #### 返回示例：
 
@@ -413,6 +418,7 @@ POST
 #### 请求示例：
 ```
 POST {{baseUrl}}/v1/merchants
+{{authorization}}
 Content-Type: application/json
 
 {
@@ -421,7 +427,7 @@ Content-Type: application/json
     "address":"西湖路万达广场B1层436号",
     "phone":"18446905856",
     "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
-} 
+}
 ```
 #### 返回示例：
 ```
@@ -438,7 +444,7 @@ Content-Type: application/json
 
 #### 请求方式：
 ```
-PATCH
+PUT
 ```
 
 #### 参数类型
@@ -459,7 +465,8 @@ PATCH
 
 #### 请求示例：
 ```
-PATCH  {{baseUrl}}/v1/merchants/5e9c00b934735409240ca51a
+PUT  {{baseUrl}}/v1/merchants/5e9d291c08d9cf3a8878babb
+{{authorization}}
 Content-Type: application/json
 
 {

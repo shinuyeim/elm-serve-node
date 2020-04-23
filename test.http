@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:3000
+@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2NDM5MCwiZXhwIjoxNTg4MTY5MTkwfQ.sYY1BMNPWeDztKMw051j9-H-JRPR_-gnlwuBqKBphoY
+
 
 ### 管理员注册
 POST {{baseUrl}}/admins/register
@@ -20,12 +22,12 @@ Content-Type: application/json
 
 ### 获取管理员信息
 GET {{baseUrl}}/admins/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2NDM5MCwiZXhwIjoxNTg4MTY5MTkwfQ.sYY1BMNPWeDztKMw051j9-H-JRPR_-gnlwuBqKBphoY
+{{authorization}}
 
 ### 更新管理员信息
 PUT {{baseUrl}}/admins/profile
+{{authorization}}
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2ODA2MywiZXhwIjoxNTg4MTcyODYzfQ.OQJTwvvfEZkS_HG6Xq4EfywaeFMzUYkEIs2ZnVaOokg
 
 { 
   "password":"123456",
@@ -36,21 +38,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkM
 
 ### 获取管理员列表
 GET {{baseUrl}}/admins?offset=0&limit=1
+{{authorization}}
 
 ### 删除管理员
 DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
+{{authorization}}
 
 ### 获取商家列表
 GET {{baseUrl}}/v1/merchants?offset=0&limit=1
+{{authorization}}
 
 ### 获取商家信息
 GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+{{authorization}}
 
 ### 删除商家
 DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+{{authorization}}
 
 ### 新建商家
 POST {{baseUrl}}/v1/merchants
+{{authorization}}
 Content-Type: application/json
 
 {
@@ -63,6 +71,7 @@ Content-Type: application/json
 
 ### 更新商家
 PUT  {{baseUrl}}/v1/merchants/5e9d291c08d9cf3a8878babb
+{{authorization}}
 Content-Type: application/json
 
 {

@@ -4,6 +4,10 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+const jwt = require('jsonwebtoken');
+const SECRET = 'token_secret';
+
+var Admin = require('./models/admin/admin');
 // var indexRouter = require('./routes/index');
 var adminRouter = require("./routes/admin");
 var v1Router = require("./routes/v1");
@@ -50,6 +54,38 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // app.use('/', indexRouter);
+app.use(function (req, res, next) {
+    if (req.url == "/admins/login" && req.url == "/admins/register") {
+        return next();
+    }
+
+    if (!req.headers.authorization) {
+        return res.status(401).send({
+            message: "Authorization not exist!"
+        })
+    }
+
+    const raw = String(req.headers.authorization.split(' ').pop());
+    const { id } = jwt.verify(raw, SECRET);
+
+    Admin.findById(id, (err, existedAdmin) => {
+        if (err) { return next(err) }
+
+        if (!existedAdmin) {
+            return res.status(401).send({
+                message: "Identity is invalid!"
+            })
+        }
+        Object.assign(req, {
+            auth: {
+                "userid": existedAdmin._id,
+                "privilege": existedAdmin.privilege
+            }
+        })
+        next();
+    })
+});
+
 app.use("/admins", adminRouter);
 app.use("/v1", v1Router);
 

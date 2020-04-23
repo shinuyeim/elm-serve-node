@@ -37,8 +37,14 @@ exports.admin_list = function (req, res, next) {
 }
 
 exports.admin_delete = function (req, res, next) {
-    const admin_id = req.params.id;
 
+    if(req.auth.privilege !== 0){
+        return res.status(403).send({
+            message:"Not enough permissions"
+        })
+    }
+
+    const admin_id = req.params.id;
     Admin.findByIdAndRemove(admin_id, function (err) {
         if (err) {
             return next(err);
@@ -166,8 +172,7 @@ exports.admin_update = [
         }
         else {
             // Data is valid. Update the record.
-            const raw = String(req.headers.authorization.split(' ').pop());
-            const { id } = jwt.verify(raw, SECRET);
+            const id = req.authed_userid;
 
             Admin.findById(id)
                 .then((existedAdmin) => {
@@ -193,7 +198,7 @@ exports.admin_update = [
                     const admin = {};
                     if (undefined !== req.body.user_name) { Object.assign(admin, { "user_name": req.body.user_name }) }
                     if (undefined !== req.body.new_password) { Object.assign(admin, { "password": req.body.new_password }) }
-                    if (undefined !== req.body.city) {Object.assign(admin, { "city": req.body.city })}
+                    if (undefined !== req.body.city) { Object.assign(admin, { "city": req.body.city }) }
 
                     Admin.findByIdAndUpdate(id, admin, { "omitUndefined": true }, function (err) {
                         if (err) {
@@ -208,10 +213,15 @@ exports.admin_update = [
 ]
 
 exports.admin_profile = function (req, res, next) {
-    const raw = String(req.headers.authorization.split(' ').pop());
-    const { id } = jwt.verify(raw, SECRET);
 
-    Admin.findById(id, { password: 0 }).then((existedAdmin) => {
+    Admin.findById(req.auth.userid, { password: 0 }, (err, existedAdmin) => {
+        if (err) { return next(err) }
+
+        if (!existedAdmin) {
+            return res.status(401).send({
+                message: "Identity is invalid!"
+            })
+        }
         return res.status(200).send(existedAdmin);
     });
 }
