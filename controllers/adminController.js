@@ -2,7 +2,7 @@ var Admin = require('../models/admin/admin');
 const validator = require('express-validator');
 var async = require('async');
 const jwt = require('jsonwebtoken');
-const SECRET = 'token_secret';
+const SECRET = process.env.SECRET;
 
 // Display list of all admins.
 exports.admin_list = function (req, res, next) {
