@@ -1,9 +1,9 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3000/api
 @authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2NDM5MCwiZXhwIjoxNTg4MTY5MTkwfQ.sYY1BMNPWeDztKMw051j9-H-JRPR_-gnlwuBqKBphoY
 
 
-### 管理员注册
-POST {{baseUrl}}/admins/register
+### 用户注册
+POST {{baseUrl}}/register
 Content-Type: application/json
 
 {
@@ -11,8 +11,8 @@ Content-Type: application/json
   "password": "12345678"
 }
 
-### 管理员登录
-POST {{baseUrl}}/admins/login
+### 用户登录
+POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
