@@ -20,9 +20,9 @@ DELETE：用于删除资源。
 ---
 
 ## 接口目录：
-
-[用户注册](#用户注册)</br>
 [用户登录](#用户登录)</br>
+
+[管理员注册](#管理员注册)</br>
 [获取管理员信息](#获取管理员信息)<br>
 [管理员信息更新](#更新管理员信息)</br>
 
@@ -40,52 +40,10 @@ DELETE：用于删除资源。
 ## 接口：
 
 ### 公共变量
-
 ```
 baseUrl: http://localhost:3000/api
 authorization = Authorization: Bearer <token>
 ```
-
-### 用户注册
-
-#### 请求 URL：
-
-```
-<baseUrl>/register
-```
-
-#### 请求方式：
-
-```
-POST
-```
-
-#### 参数类型：query
-
-| 参数      | 是否必选 | 类型   | 说明       |
-| :-------- | :------: | :----- | :--------- |
-| user_name |   Y      | String | 注册用户名 |
-| password  |   Y      | String | 用户密码   |
-
-#### 请求示例：
-
-```
-POST {{baseUrl}}/register
-Content-Type: application/json
-
-{
-  "username": "user1",
-  "password": "123456"
-}
-```
-
-#### 返回示例：
-
-```json
-201 Created
-```
-
----
 
 ### 用户登录
 
@@ -132,12 +90,98 @@ Content-Type: application/json
 
 ---
 
+### 更新用户信息
+
+#### 请求 URL：
+
+```
+<baseUrl>/users/:id
+```
+
+#### 请求方式：
+
+```
+PUT
+```
+
+#### 参数类型：query
+
+| 参数      | 是否必选 | 类型   | 说明       |
+| :-------- | :------: | :----- | :--------- |
+| password  |   Y      | String | 用户密码 |
+| new_password  |   Y  | String | 用户新密码   |
+
+#### 请求示例：
+
+```
+PUT {{baseUrl}}/users/5ea44f0a4795991a34a80ba6
+{{authorization}}
+Content-Type: application/json
+
+{
+  "password":"12345678",
+  "new_password":"123456"
+}
+```
+
+#### 返回示例：
+
+```
+200 OK
+
+<token>
+```
+
+> `401 Unauthorized` 未认证，用户没有有效身份信息。<br> >`403 Forbidden` 未授权，用户身份有效，但是权限不够。
+
+---
+
+### 管理员注册
+
+#### 请求 URL：
+
+```
+<baseUrl>/register/admin
+```
+
+#### 请求方式：
+```
+POST
+```
+
+#### 参数类型：body
+
+| 参数      | 是否必选 | 类型   | 说明       |
+| :-------- | :------: | :----- | :--------- |
+| user_name |   Y      | String | 注册用户名 |
+| password  |   Y      | String | 用户密码   |
+
+#### 请求示例：
+```
+POST {{baseUrl}}/register/admin
+Content-Type: application/json
+
+{
+  "user_name": "user3",
+  "password": "12345678"
+}
+```
+
+#### 返回示例：
+
+```
+201 Created
+```
+
+---
+
+
 ### 获取管理员信息
 
 #### 请求 URL：
 
 ```
-<baseUrl>/admins/profile
+<baseUrl>/admins/:id
 ```
 
 #### 请求方式：
@@ -151,11 +195,12 @@ GET
 | 参数  | 是否必选 | 类型   | 说明 |
 | :---- | :------: | :----- | :--- |
 | token |   Y      | String |      |
+| id    |   Y      | String | 管理员ID |
 
 #### 请求示例：
 
 ```
-GET {{baseUrl}}/admins/profile
+GET {{baseUrl}}/admins/:id
 {{authorization}}
 ```
 
@@ -163,11 +208,12 @@ GET {{baseUrl}}/admins/profile
 
 ```json
 {
-  "register_date": "2020-04-22T12:03:55.464Z",
-  "privilege": 1,
-  "_id": "5ea032bd0c43a01ab026f9fe",
-  "user_name": "user2",
-  "__v": 0
+  "_id": "5ea44e83ed9ee81cf4895b0f",
+  "name": "马云",
+  "privilege": 0,
+  "city": "上海",
+  "user_name": "user1",
+  "register_date": "2020-04-25T14:51:09.724Z"
 }
 ```
 
@@ -178,7 +224,7 @@ GET {{baseUrl}}/admins/profile
 #### 请求 URL：
 
 ```
-<baseUrl>/admins/profile
+<baseUrl>/admins/:id
 ```
 
 #### 请求方式：
@@ -189,24 +235,20 @@ PUT
 
 #### 参数类型：body
 
-| 参数         | 是否必选 | 类型   | 说明       |
-| :----------- | :------: | :----- | :--------- |
-| user_name    |   N      | String | 注册用户名 |
-| password     |   Y      | String | 旧密码     |
-| new_password |   N      | String | 新密码     |
-| city         |   N      | String | 注册城市   |
+| 参数     | 是否必选 | 类型   | 说明       |
+| :------ | :------: | :----- | :--------- |
+| name    |   N      | String | 呢称       |
+| city    |   N      | String | 注册城市   |
 
 #### 请求示例：
 
 ```
-PUT {{baseUrl}}/admins/profile
+PUT {{baseUrl}}/admins/5ea44f0a4795991a34a80ca7
 {{authorization}}
 Content-Type: application/json
 
-{
-  "password":"123456",
-  "new_password":"123456",
-  "user_name":"user2",
+{ 
+  "name":"马云",
   "city":"上海"
 }
 ```
@@ -235,10 +277,10 @@ GET
 
 #### 参数类型：query
 
-| 参数   | 是否必选 | 类型     | 说明                  |
-| :----- | :------: | :------- | :-------------------- |
-| limit  |  N       | 非负整数 | 获取数据数量，默认 20 |
-| offset |  N       | 非负整数 | 跳过数据条数 默认 0   |
+| 参数   | 是否必选 | 类型  | 说明 |
+| :----- | :------: | :---- |：---|
+| limit |  N   | 非负整数 | 获取数据数量，默认 20 |
+| offset |  N  | 非负整数 | 跳过数据条数 默认 0   |
 
 #### 请求示例：
 
@@ -252,19 +294,18 @@ GET {{baseUrl}}/admins?offset=0&limit=1
 ```json
 {
   "metadata": {
-    "Total": 60,
+    "Total": 3,
     "Limit": 1,
     "LimitOffset": 0,
     "ReturnedRows": 1
   },
   "data": [
     {
-      "privilege": 1,
-      "_id": "5e9bd7dceddc242a34db862d",
-      "user_name": "刘梓宇",
-      "register_date": "2020-03-02T00:00:00.000Z",
-      "city": "广州",
-      "__v": 0
+      "privilege": 0,
+      "_id": "5ea44e83ed9ee81cf4895b0f",
+      "__v": 0,
+      "city": "上海",
+      "name": "马云"
     }
   ]
 }

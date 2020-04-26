@@ -1,4 +1,4 @@
-var Merchant = require('../models/merchant/merchant');
+var Merchant = require('../models/merchant');
 const validator = require('express-validator');
 var async = require('async')
 

@@ -1,11 +1,14 @@
-var Admin = require('../models/admin/admin');
+var Admin = require('../models/admin');
+const User = require('../models/user');
 const validator = require('express-validator');
 var async = require('async');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
+const user_controller = require('./userController');
+
 // Display list of all admins.
-exports.admin_list = function (req, res, next) {
+exports.admin_list = (req, res, next) => {
     // res.send("GET admin/all not complete!");
     const { limit = 20, offset = 0 } = req.query;
 
@@ -14,7 +17,7 @@ exports.admin_list = function (req, res, next) {
             Admin.countDocuments().exec(callback)
         },
         list_admins: function (callback) {
-            Admin.find({}, { password: 0 })
+            Admin.find({}, { user: 0 })
                 .sort({ 'user_name': 'ascending' })
                 .skip(Number(offset))
                 .limit(Number(limit))
@@ -36,79 +39,68 @@ exports.admin_list = function (req, res, next) {
     )
 }
 
-exports.admin_delete = function (req, res, next) {
+exports.admin_delete = (req, res, next) => {
 
-    if(req.auth.privilege !== 0){
+    if (req.auth.privilege !== 0) {
         return res.status(403).send({
-            message:"Not enough permissions"
+            message: "Not enough permissions"
         })
     }
 
     const admin_id = req.params.id;
-    Admin.findByIdAndRemove(admin_id, function (err) {
-        if (err) {
-            return next(err);
-        }
-        // Successful, so render.
+    Admin.findById(admin_id).then(async (existedAdmin) => {
+        if (!existedAdmin) { return res.status(204).send(); }
+        await User.findByIdAndRemove(existedAdmin.user);
+        await existedAdmin.remove();
         res.status(204).send();
     });
 }
 
 exports.admin_create = [
     // Validate fields.
-    validator.body('user_name').not().isEmpty().trim().withMessage('user_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('password').not().isEmpty().trim().withMessage('password must be specified.').isLength({ max: 16 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('city').if((value, { req }) => req.body.city).not().isEmpty().trim().withMessage('city must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('register_date').if((value, { req }) => req.body.register_date).isISO8601().toDate(),
+    validator.body('user_name').not().isEmpty().trim().withMessage('user_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length error.').escape(),
+    validator.body('password').not().isEmpty().trim().withMessage('password must be specified.').isLength({ min: 6, max: 16 }).trim().withMessage(' length error.').escape(),
 
-    // Process request after validation and sanitization.
     (req, res, next) => {
-
         // Extract the validation errors from a request.
         const errors = validator.validationResult(req);
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            return next(err);
+            return res.status(422).send(errors);
         }
-
-        // Data from form is valid.
-        Admin.countDocuments({ user_name: req.body.user_name }).then(
-            (existAdminCount) => {
-                if (existAdminCount > 0) {
-                    res.status(422).json({
-                        massage: "user_name existed!",
-                    })
-                    return;
-                }
-
+        else {
+            // Data from form is valid.
+            const data = {
+                user_name: req.body.user_name,
+                password: req.body.password,
+                role: 0
+            }
+            user_controller.user_create(data, function (err, userid) {
+                if (err) { return next(err); }
                 // Create Admin object with escaped and trimmed data
                 const admin = new Admin(
                     {
-                        user_name: req.body.user_name,
-                        password: req.body.password,
+                        user: userid,
                         privilege: 1,
-                        register_date: req.body.register_date,
-                        city: req.body.city
+                        name: null,
+                        city: null
                     }
                 );
-
                 // Save admin.
-                admin.save(function (err) {
+                admin.save(async function (err) {
                     if (err) {
-                        // res.status(500).json({
-                        //     massage: err,
-                        // })
+                        await User.findByIdAndRemove(userid);
                         return next(err);
                     }
                     // Successful - redirect to new admin record.
                     res.status(201).send();
                 });
-            }
-        )
+            })
+        }
     }
-
 ]
+
 
 exports.admin_login = [
 
@@ -153,10 +145,10 @@ exports.admin_login = [
 
 exports.admin_update = [
     // Validate fields.
-    validator.body('_id').not().exists(),
-    validator.body('password').not().isEmpty().trim().withMessage('password must be specified.').isLength({ max: 16 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('new_password').if((value, { req }) => req.body.new_password).not().isEmpty().trim().withMessage('password must be specified.').isLength({ max: 16 }).trim().withMessage(' length exceed.').escape(),
-    validator.body('user_name').if((value, { req }) => req.body.user_name).not().isEmpty().trim().withMessage('user_name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
+    validator.body('_id').not().exists().withMessage('Can not update _id'),
+    validator.body('user').not().exists().withMessage('Can not update user'),
+    validator.body('privilege').not().exists().withMessage('Can not update privilege'),
+    validator.body('name').if((value, { req }) => req.body.name).not().isEmpty().trim().withMessage('name must be specified.').isLength({ max: 20 }).trim().withMessage(' length exceed.').escape(),
     validator.body('city').if((value, { req }) => req.body.city).not().isEmpty().trim().withMessage('city must be specified.').isLength({ max: 60 }).trim().withMessage(' length exceed.').escape(),
 
     // Process request after validation and sanitization.
@@ -165,64 +157,46 @@ exports.admin_update = [
 
         const errors = validator.validationResult(req);
 
-
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
             return res.status(422).send(errors);
         }
         else {
             // Data is valid. Update the record.
-            const id = req.authed_userid;
-
-            Admin.findById(id)
-                .then((existedAdmin) => {
-                    if (!existedAdmin) {
-                        return res.status(422).send({
-                            massage: "this user not existed!"
-                        })
-                    }
-
-                    const isPasswordValid = require('bcryptjs').compareSync(
-                        req.body.password,
-                        existedAdmin.password
-                    )
-                    if (!isPasswordValid) {
-                        return res.status(422).send({
-                            massage: "password not valid!"
-                        })
-                    }
-
-                })
-                .then(() => {
-
-                    const admin = {};
-                    if (undefined !== req.body.user_name) { Object.assign(admin, { "user_name": req.body.user_name }) }
-                    if (undefined !== req.body.new_password) { Object.assign(admin, { "password": req.body.new_password }) }
-                    if (undefined !== req.body.city) { Object.assign(admin, { "city": req.body.city }) }
-
-                    Admin.findByIdAndUpdate(id, admin, { "omitUndefined": true }, function (err) {
-                        if (err) {
-                            return next(err);
-                        }
-                        // Successful
-                        return res.status(200).send();
-                    });
-                })
+            const admin = {
+                name: req.body.name,
+                city: req.body.city
+            }
+            Admin.findByIdAndUpdate(req.params.id, admin, {}, function (err) {
+                if (err) { return next(err); }
+                // Successful 
+                res.status(200).send();
+            });
         }
+
     }
 ]
 
-exports.admin_profile = function (req, res, next) {
+exports.admin_detail = (req, res, next) => {
 
-    Admin.findById(req.auth.userid, { password: 0 }, (err, existedAdmin) => {
+    Admin.findById(req.params.id).populate('user').exec((err, existedAdmin) => {
         if (err) { return next(err) }
 
         if (!existedAdmin) {
-            return res.status(401).send({
-                message: "Identity is invalid!"
+            return res.status(422).send({
+                message: "Admin not found!"
             })
         }
-        return res.status(200).send(existedAdmin);
+
+        const resData = {
+            "_id": existedAdmin._id,
+            "name": existedAdmin.name,
+            "privilege": existedAdmin.privilege,
+            "city": existedAdmin.city,
+            "user_name": existedAdmin.user.user_name,
+            "register_date": existedAdmin.user.register_date,
+        }
+        return res.status(200).send(resData);
     });
 }
 

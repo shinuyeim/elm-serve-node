@@ -1,38 +1,47 @@
-@baseUrl = http://localhost:3000/api
-@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTAzMmJkMGM0M2EwMWFiMDI2ZjlmZSIsImlhdCI6MTU4NzU2NDM5MCwiZXhwIjoxNTg4MTY5MTkwfQ.sYY1BMNPWeDztKMw051j9-H-JRPR_-gnlwuBqKBphoY
-
-
-### 用户注册
-POST {{baseUrl}}/register
-Content-Type: application/json
-
-{
-  "user_name": "user2",
-  "password": "12345678"
-}
-
+@baseUrl = http://localhost:3000/api/v1
+@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ0ZTgzZWQ5ZWU4MWNmNDg5NWIwZSIsImlhdCI6MTU4Nzg5ODMyNCwiZXhwIjoxNTg4NTAzMTI0fQ.yKNeERe283DA9roZGA8HJfxFI30V9SnUAIQGZGq98Lk
 ### 用户登录
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "user_name": "user2",
+  "user_name": "user1",
   "password": "123456"
 }
 
+### 更新用户信息
+PUT {{baseUrl}}/users/5ea44f0a4795991a34a80ba6
+{{authorization}}
+Content-Type: application/json
+
+{
+  "password":"12345678",
+  "new_password":"123456"
+}
+
+### 管理员注册
+POST {{baseUrl}}/register/admin
+Content-Type: application/json
+
+{
+  "user_name": "user3",
+  "password": "12345678"
+}
+
 ### 获取管理员信息
-GET {{baseUrl}}/admins/profile
+GET {{baseUrl}}/admins/5ea44e83ed9ee81cf4895b0f
 {{authorization}}
 
+
+
+
 ### 更新管理员信息
-PUT {{baseUrl}}/admins/profile
+PUT {{baseUrl}}/admins/5ea44e83ed9ee81cf4895b0f
 {{authorization}}
 Content-Type: application/json
 
 { 
-  "password":"123456",
-  "new_password":"123456",
-  "user_name":"user2",
+  "name":"马云",
   "city":"上海"
 }
 
@@ -41,40 +50,40 @@ GET {{baseUrl}}/admins?offset=0&limit=1
 {{authorization}}
 
 ### 删除管理员
-DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
+DELETE {{baseUrl}}/admins/5ea44f90fc6be23c940fbf9c
 {{authorization}}
 
-### 获取商家列表
-GET {{baseUrl}}/v1/merchants?offset=0&limit=1
-{{authorization}}
+# ### 获取商家列表
+# GET {{baseUrl}}/merchants?offset=0&limit=1
+# {{authorization}}
 
-### 获取商家信息
-GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
-{{authorization}}
+# ### 获取商家信息
+# GET {{baseUrl}}/merchants/5e9bd936f0161441ac9da486
+# {{authorization}}
 
-### 删除商家
-DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
-{{authorization}}
+# ### 删除商家
+# DELETE {{baseUrl}}/merchants/5e9bd936f0161441ac9da486
+# {{authorization}}
 
-### 新建商家
-POST {{baseUrl}}/v1/merchants
-{{authorization}}
-Content-Type: application/json
+# ### 新建商家
+# POST {{baseUrl}}/merchants
+# {{authorization}}
+# Content-Type: application/json
 
-{
-    "shop_name":"同福客栈",
-    "register_date":"2020-04-18T13:52:39",
-    "address":"西湖路万达广场B1层436号",
-    "phone":"18446905856",
-    "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
-} 
+# {
+#     "shop_name":"同福客栈",
+#     "register_date":"2020-04-18T13:52:39",
+#     "address":"西湖路万达广场B1层436号",
+#     "phone":"18446905856",
+#     "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
+# } 
 
-### 更新商家
-PUT  {{baseUrl}}/v1/merchants/5e9d291c08d9cf3a8878babb
-{{authorization}}
-Content-Type: application/json
+# ### 更新商家
+# PUT  {{baseUrl}}/merchants/5e9d291c08d9cf3a8878babb
+# {{authorization}}
+# Content-Type: application/json
 
-{
-    "address":"西湖路万达广场B1层436号",
-    "phone":"18725451268"
-} 
+# {
+#     "address":"西湖路万达广场B1层436号",
+#     "phone":"18725451268"
+# } 
