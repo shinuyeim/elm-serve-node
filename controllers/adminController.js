@@ -71,20 +71,18 @@ exports.admin_create = [
         }
         else {
             // Data from form is valid.
-            const data = {
+            const userdata = {
                 user_name: req.body.user_name,
                 password: req.body.password,
                 role: 0
             }
-            user_controller.user_create(data, function (err, userid) {
+            user_controller.user_create(userdata, function (err, userid) {
                 if (err) { return next(err); }
                 // Create Admin object with escaped and trimmed data
                 const admin = new Admin(
                     {
                         user: userid,
                         privilege: 1,
-                        name: null,
-                        city: null
                     }
                 );
                 // Save admin.
@@ -100,7 +98,6 @@ exports.admin_create = [
         }
     }
 ]
-
 
 exports.admin_login = [
 

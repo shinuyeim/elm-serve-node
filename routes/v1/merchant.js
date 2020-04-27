@@ -11,10 +11,6 @@ router.get('/:id',merchant_controller.merchant_info);
 
 router.delete('/:id',merchant_controller.merchant_delete);
 
-// POST request for creating Merchant.
-router.post('/', merchant_controller.merchant_create);
-
-
 router.put('/:id', merchant_controller.merchant_update);
 
 module.exports = router;

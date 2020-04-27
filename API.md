@@ -15,35 +15,39 @@ PATCH：用于通过部分JSON数据更新资源。
 DELETE：用于删除资源。
 ```
 
-参考[GitHub REST API v3](https://developer.github.com/v3/)
+参考 [GitHub REST API v3](https://developer.github.com/v3/)
 
 ---
 
 ## 接口目录：
-[用户登录](#用户登录)</br>
 
-[管理员注册](#管理员注册)</br>
+[用户登录](#用户登录)</br>
+[更新用户信息](#更新用户信息)</br>
+
+[注册管理员](#注册管理员)</br>
 [获取管理员信息](#获取管理员信息)<br>
 [管理员信息更新](#更新管理员信息)</br>
-
 [获取管理员列表](#获取管理员列表)<br/>
 [删除管理员](#删除管理员)</br>
 
+[注册商家](#注册商家)</br>
+[更新商家](#更新商家)</br>
 [获取商家列表](#获取商家列表)</br>
 [获取商家信息](#获取商家信息)</br>
 [删除商家](#删除商家)</br>
-[新增商家](#新增商家)</br>
-[更新商家](#更新商家)</br>
 
 ---
 
 ## 接口：
 
 ### 公共变量
+
 ```
 baseUrl: http://localhost:3000/api
 authorization = Authorization: Bearer <token>
 ```
+
+## 用户
 
 ### 用户登录
 
@@ -86,7 +90,7 @@ Content-Type: application/json
 <token>
 ```
 
-> `401 Unauthorized` 未认证，用户没有有效身份信息。<br> >`403 Forbidden` 未授权，用户身份有效，但是权限不够。
+> `401 Unauthorized` 未认证，用户没有有效身份信息。</br> `403 Forbidden` 未授权，用户身份有效，但是权限不够。
 
 ---
 
@@ -106,10 +110,10 @@ PUT
 
 #### 参数类型：query
 
-| 参数      | 是否必选 | 类型   | 说明       |
-| :-------- | :------: | :----- | :--------- |
-| password  |   Y      | String | 用户密码 |
-| new_password  |   Y  | String | 用户新密码   |
+| 参数         | 是否必选 | 类型   | 说明       |
+| :----------- | :------: | :----- | :--------- |
+| password     |   Y      | String | 用户密码   |
+| new_password |   Y      | String | 用户新密码 |
 
 #### 请求示例：
 
@@ -132,11 +136,11 @@ Content-Type: application/json
 <token>
 ```
 
-> `401 Unauthorized` 未认证，用户没有有效身份信息。<br> >`403 Forbidden` 未授权，用户身份有效，但是权限不够。
-
 ---
 
-### 管理员注册
+## 管理员
+
+### 注册管理员
 
 #### 请求 URL：
 
@@ -145,6 +149,7 @@ Content-Type: application/json
 ```
 
 #### 请求方式：
+
 ```
 POST
 ```
@@ -157,6 +162,7 @@ POST
 | password  |   Y      | String | 用户密码   |
 
 #### 请求示例：
+
 ```
 POST {{baseUrl}}/register/admin
 Content-Type: application/json
@@ -175,7 +181,6 @@ Content-Type: application/json
 
 ---
 
-
 ### 获取管理员信息
 
 #### 请求 URL：
@@ -190,12 +195,11 @@ Content-Type: application/json
 GET
 ```
 
-#### 参数类型：head
+#### 参数类型：param
 
-| 参数  | 是否必选 | 类型   | 说明 |
-| :---- | :------: | :----- | :--- |
-| token |   Y      | String |      |
-| id    |   Y      | String | 管理员ID |
+| 参数 | 是否必选 | 类型   | 说明      |
+| :--- | :------: | :----- | :-------- |
+| id   |   Y      | String | 管理员 ID |
 
 #### 请求示例：
 
@@ -235,10 +239,10 @@ PUT
 
 #### 参数类型：body
 
-| 参数     | 是否必选 | 类型   | 说明       |
-| :------ | :------: | :----- | :--------- |
-| name    |   N      | String | 呢称       |
-| city    |   N      | String | 注册城市   |
+| 参数 | 是否必选 | 类型   | 说明     |
+| :--- | :------: | :----- | :------- |
+| name |   N      | String | 呢称     |
+| city |   N      | String | 注册城市 |
 
 #### 请求示例：
 
@@ -247,7 +251,7 @@ PUT {{baseUrl}}/admins/5ea44f0a4795991a34a80ca7
 {{authorization}}
 Content-Type: application/json
 
-{ 
+{
   "name":"马云",
   "city":"上海"
 }
@@ -277,10 +281,10 @@ GET
 
 #### 参数类型：query
 
-| 参数   | 是否必选 | 类型  | 说明 |
+| 参数 | 是否必选 | 类型 | 说明 |
 | :----- | :------: | :---- |：---|
-| limit |  N   | 非负整数 | 获取数据数量，默认 20 |
-| offset |  N  | 非负整数 | 跳过数据条数 默认 0   |
+| limit | N   | 非负整数 | 获取数据数量，默认 20 |
+| offset | N  | 非负整数 | 跳过数据条数 默认 0 |
 
 #### 请求示例：
 
@@ -348,12 +352,112 @@ DELETE {{baseUrl}}/admins/5e9bd7dceddc242a34db8631
 
 ---
 
+## 商家
+
+### 注册商家
+
+#### 请求 URL：
+
+```
+<baseUrl>/register/merchant
+```
+
+#### 请求方式：
+
+```
+POST
+```
+
+#### 参数类型：body
+
+| 参数          | 是否必选 | 类型   | 说明     |
+| :------------ | :------: | :----- | :------- |
+| user_name     |    Y     | String | 用户名称 |
+| password      |    Y     | String | 用户密码 |
+
+#### 请求示例：
+
+```
+POST {{baseUrl}}/register/merchant
+Content-Type: application/json
+
+{
+   "user_name": "user7",
+   "password": "123456789"
+}
+```
+
+#### 返回示例：
+
+```
+201 Created
+```
+
+---
+
+### 更新商家
+
+#### 请求 URL：
+
+```
+<baseUrl>/merchants/:id
+```
+
+#### 请求方式：
+
+```
+PUT
+```
+
+#### 参数类型
+
+参数类型：param
+|参数|是否必选|类型|说明|
+|:-----|:------:|:-----|:-----|
+|id    |Y |objectID | 商家 id |
+
+参数类型：body
+
+| 参数               | 是否必选 | 类型   | 说明       |
+| :----------------- | :------: | :----- | :--------- |
+| name               |    N     | String | 商家名称   |
+| phone              |    N     | String | 联系方式   |
+| introduction       |    N     | String | 商家简介   |
+| address            |    N     | String | 商家地址   |
+| delivery_cost      |    N     | String | 配送价     |
+| min_delivery_price |    N     | String | 最低起送价 |
+
+#### 请求示例：
+
+```
+PUT  {{baseUrl}}/merchants/5ea6e4a260e3ac01005f6b41
+{{authorization}}
+Content-Type: application/json
+
+{
+  "name": "盒马",
+  "phone": "18514965823",
+  "introduction": "盒马是阿里巴巴集团旗下，以数据和技术驱动的新零售平台。盒马希望为消费者打造社区化的一站式新零售体验中心，用科技和人情味带给人们“鲜美生活”",
+  "address": "张杨路3611号金桥国际商业广场1座B1层",
+  "delivery_cost": 5,
+  "min_delivery_price": 20
+}
+```
+
+#### 返回示例：
+
+```
+200 OK
+```
+
+---
+
 ### 获取商家列表
 
 #### 请求 URL：
 
 ```
-<baseUrl>/v1/merchants
+<baseUrl>/merchants
 ```
 
 #### 请求方式：
@@ -372,7 +476,7 @@ GET
 #### 请求示例：
 
 ```
-GET {{baseUrl}}/v1/merchants?offset=0&limit=1
+GET {{baseUrl}}/merchants?offset=0&limit=1
 {{authorization}}
 ```
 
@@ -381,20 +485,22 @@ GET {{baseUrl}}/v1/merchants?offset=0&limit=1
 ```json
 {
   "metadata": {
-    "Total": 55,
+    "Total": 1,
     "Limit": 1,
     "LimitOffset": 0,
     "ReturnedRows": 1
   },
   "data": [
     {
-      "_id": "5e9bd7dceddc242a34db8632",
-      "shop_name": "同福客栈",
-      "register_date": "2020-03-04T00:00:00.000Z",
-      "address": "浦东南路星空广场B1层248号",
-      "phone": "13781272526",
-      "introduction": "“同福客栈”是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。",
-      "__v": 0
+      "delivery_cost": 5,
+      "min_delivery_price": 20,
+      "_id": "5ea6e57c60e3ac01005f6b43",
+      "user": "5ea6e57c60e3ac01005f6b42",
+      "__v": 0,
+      "address": "张杨路3611号金桥国际商业广场1座B1层",
+      "introduction": "盒马是阿里巴巴集团旗下，以数据和技术驱动的新零售平台。盒马希望为消费者打造社区化的一站式新零售体验中心，用科技和人情味带给人们“鲜美生活”",
+      "name": "盒马",
+      "phone": "18514965823"
     }
   ]
 }
@@ -407,7 +513,7 @@ GET {{baseUrl}}/v1/merchants?offset=0&limit=1
 #### 请求 URL：
 
 ```
-<baseUrl>/v1/merchants/:id
+<baseUrl>/merchants/:id
 ```
 
 #### 请求方式：
@@ -425,7 +531,7 @@ GET
 #### 请求示例：
 
 ```
-GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+GET {{baseUrl}}/merchants/5e9bd936f0161441ac9da486
 {{authorization}}
 ```
 
@@ -433,15 +539,15 @@ GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
 
 ```json
 {
-  "data": {
-    "_id": "5e9bd936f0161441ac9da486",
-    "shop_name": "同福客栈",
-    "register_date": "2018-04-18T05:52:39.000Z",
-    "address": "西湖路万达广场B1层435号",
-    "phone": "18725451286",
-    "introduction": "同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。",
-    "__v": 0
-  }
+  "_id": "5ea6e57c60e3ac01005f6b43",
+  "name": "盒马",
+  "address": "张杨路3611号金桥国际商业广场1座B1层",
+  "phone": "18514965823",
+  "introduction": "盒马是阿里巴巴集团旗下，以数据和技术驱动的新零售平台。盒马希望为消费者打造社区化的一站式新零售体验中心，用科技和人情味带给人们“鲜美生活”",
+  "delivery_cost": 5,
+  "min_delivery_price": 20,
+  "user_name": "user7",
+  "register_date": "2020-04-27T13:56:11.692Z"
 }
 ```
 
@@ -452,7 +558,7 @@ GET {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
 #### 请求 URL：
 
 ```
-<baseUrl>/v1/merchants/:id
+<baseUrl>/merchants/:id
 ```
 
 #### 请求方式：
@@ -470,7 +576,7 @@ DELETE
 #### 请求示例：
 
 ```
-DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
+DELETE {{baseUrl}}/merchants/5e9bd936f0161441ac9da486
 {{authorization}}
 ```
 
@@ -478,106 +584,6 @@ DELETE {{baseUrl}}/v1/merchants/5e9bd936f0161441ac9da486
 
 ```
 204 No Content
-```
-
----
-
-### 新增商家
-
-#### 请求 URL：
-
-```
-<baseUrl>/v1/merchants
-```
-
-#### 请求方式：
-
-```
-POST
-```
-
-#### 参数类型：body
-
-| 参数          | 是否必选 | 类型        | 说明     |
-| :------------ | :------: | :---------- | :------- |
-| shop_name     |    Y     | String      | 商家名称 |
-| register_date |    Y     | ISO8601Date | 注册日期 |
-| address       |    Y     | String      | 商家地址 |
-| phone         |    Y     | String      | 联系方式 |
-| introduction  |    N     | String      | 商家简介 |
-
-#### 请求示例：
-
-```
-POST {{baseUrl}}/v1/merchants
-{{authorization}}
-Content-Type: application/json
-
-{
-    "shop_name":"同福客栈",
-    "register_date":"2020-04-18T13:52:39",
-    "address":"西湖路万达广场B1层436号",
-    "phone":"18446905856",
-    "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
-}
-```
-
-#### 返回示例：
-
-```
-201 Created
-```
-
----
-
-### 更新商家
-
-#### 请求 URL：
-
-```
-<baseUrl>/v1/merchants/:id
-```
-
-#### 请求方式：
-
-```
-PUT
-```
-
-#### 参数类型
-
-参数类型：param
-|参数|是否必选|类型|说明|
-|:-----|:------:|:-----|:-----|
-|id    |Y |objectID | 商家 id |
-
-参数类型：body
-
-| 参数          | 是否必选 | 类型        | 说明     |
-| :------------ | :------: | :---------- | :------- |
-| shop_name     |    N     | String      | 商家名称 |
-| register_date |    N     | ISO8601Date | 注册日期 |
-| address       |    N     | String      | 商家地址 |
-| phone         |    N     | String      | 联系方式 |
-| introduction  |    N     | String      | 商家简介 |
-
-#### 请求示例：
-
-```
-PUT  {{baseUrl}}/v1/merchants/5e9d291c08d9cf3a8878babb
-{{authorization}}
-Content-Type: application/json
-
-{
-    "address":"西湖路万达广场B1层436号",
-    "phone":"18725451268"
-}
-```
-
-#### 返回示例：
-
-```
-200 OK
 ```
 
 ---

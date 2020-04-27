@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 // Models
 var User = require("../../models/user");
 var Admin = require("../../models/admin");
+var Merchant = require('../../models/merchant');
 
 // Require Router
 const userRouter = require("./user");
@@ -14,12 +15,13 @@ const merchantRouter = require("./merchant");
 // Require controllers.
 var user_controller = require('../../controllers/userController');
 var admin_controller = require('../../controllers/adminController');
-
+var merchant_controller = require('../../controllers/merchantController');
 
 // Router login and register
 router.post("/login", user_controller.user_login);
 
 router.post("/register/admin", admin_controller.admin_create);
+router.post("/register/merchant", merchant_controller.merchant_create);
 
 /*
 / 路由鉴权，Token解析
@@ -80,20 +82,23 @@ router.use((req, res, next) => {
                 next();
             });
             break;
+        case 1:
+            Merchant.findOne({ user: req.auth.userid }).then((existedMerchant) => {
+                if (!existedMerchant) {
+                    return res.status(500).send();
+                }
+                req.auth.merchantid = existedMerchant._id;
+                delete req.auth.userid;
+                next();
+            });
         default:
             return res.status(500).send({
                 message: "role type not find!"
             })
     }
-    // function callback(err, role) {
-    //     if (err) { return next(err) }
-    //     req.auth.roleid = role._id;
-    //     delete req.auth.userid;
-    //     next();
-    // }
 })
 
 router.use("/admins", adminRouter);
-router.use("/merchant", merchantRouter)
+router.use("/merchants", merchantRouter)
 
 module.exports = router;

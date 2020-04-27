@@ -1,16 +1,16 @@
 @baseUrl = http://localhost:3000/api/v1
-@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ0ZTgzZWQ5ZWU4MWNmNDg5NWIwZSIsImlhdCI6MTU4Nzg5ODMyNCwiZXhwIjoxNTg4NTAzMTI0fQ.yKNeERe283DA9roZGA8HJfxFI30V9SnUAIQGZGq98Lk
+@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTU3Mzk3MTExMTY5MjA2YzM2ODIwMiIsImlhdCI6MTU4NzkwMTQ1NywiZXhwIjoxNTg4NTA2MjU3fQ.lRXkOGWmpHlKAJJWwZJNAKNDGnzViL6MUlL9dcfzBKQ
 ### 用户登录
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "user_name": "user1",
-  "password": "123456"
+  "user_name": "user3",
+  "password": "12345678"
 }
 
 ### 更新用户信息
-PUT {{baseUrl}}/users/5ea44f0a4795991a34a80ba6
+PUT {{baseUrl}}/users/5ea57397111169206c368202
 {{authorization}}
 Content-Type: application/json
 
@@ -24,7 +24,7 @@ POST {{baseUrl}}/register/admin
 Content-Type: application/json
 
 {
-  "user_name": "user3",
+  "user_name": "user6",
   "password": "12345678"
 }
 
@@ -33,10 +33,8 @@ GET {{baseUrl}}/admins/5ea44e83ed9ee81cf4895b0f
 {{authorization}}
 
 
-
-
-### 更新管理员信息
-PUT {{baseUrl}}/admins/5ea44e83ed9ee81cf4895b0f
+## 更新管理员信息
+PUT {{baseUrl}}/admins/5ea44f0a4795991a34a80ca7
 {{authorization}}
 Content-Type: application/json
 
@@ -53,37 +51,37 @@ GET {{baseUrl}}/admins?offset=0&limit=1
 DELETE {{baseUrl}}/admins/5ea44f90fc6be23c940fbf9c
 {{authorization}}
 
-# ### 获取商家列表
-# GET {{baseUrl}}/merchants?offset=0&limit=1
-# {{authorization}}
+### 注册商家
+POST {{baseUrl}}/register/merchant
+Content-Type: application/json
 
-# ### 获取商家信息
-# GET {{baseUrl}}/merchants/5e9bd936f0161441ac9da486
-# {{authorization}}
+{
+   "user_name": "user8",
+   "password": "123456789"
+}
 
-# ### 删除商家
-# DELETE {{baseUrl}}/merchants/5e9bd936f0161441ac9da486
-# {{authorization}}
+### 更新商家
+PUT  {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
+{{authorization}}
+Content-Type: application/json
 
-# ### 新建商家
-# POST {{baseUrl}}/merchants
-# {{authorization}}
-# Content-Type: application/json
+{
+  "name": "盒马",
+  "phone": "18514965824",
+  "introduction": "盒马是阿里巴巴集团旗下，以数据和技术驱动的新零售平台。盒马希望为消费者打造社区化的一站式新零售体验中心，用科技和人情味带给人们“鲜美生活”",
+  "address": "张杨路3611号金桥国际商业广场1座B1层",
+  "delivery_cost": 5,
+  "min_delivery_price": 20
+}
+ 
+### 获取商家列表
+GET {{baseUrl}}/merchants?offset=0&limit=1
+{{authorization}}
 
-# {
-#     "shop_name":"同福客栈",
-#     "register_date":"2020-04-18T13:52:39",
-#     "address":"西湖路万达广场B1层436号",
-#     "phone":"18446905856",
-#     "introduction":"同福客栈是电视剧《武林外传》中的客栈名称，是本电视剧故事发生的主要地点。"
-# } 
+### 获取商家信息
+GET {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
+{{authorization}}
 
-# ### 更新商家
-# PUT  {{baseUrl}}/merchants/5e9d291c08d9cf3a8878babb
-# {{authorization}}
-# Content-Type: application/json
-
-# {
-#     "address":"西湖路万达广场B1层436号",
-#     "phone":"18725451268"
-# } 
+### 删除商家
+DELETE {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
+{{authorization}}

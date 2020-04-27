@@ -1,16 +1,16 @@
 'use strict';
 
 var mongoose = require('mongoose');
-// var moment = require('moment');
 
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    user_name: { 
-        type: String, 
-        required: true, 
-        match:/^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){4,19}$/, 
-        unique: true },
+    user_name: {
+        type: String,
+        required: true,
+        match: /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){4,19}$/,
+        unique: true
+    },
     password: {
         type: String, required: true,
         set(val) {

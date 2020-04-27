@@ -1,20 +1,17 @@
 'use strict';
 
 var mongoose = require('mongoose');
-// var moment = require('moment');
 
 const Schema = mongoose.Schema;
 
 const MerchantSchema = new Schema({
-	shop_name: { type: String, required: true, maxlength: 20 },
-	register_date: { type: Date },
-	address: { type: String, maxlength: 60 },
+	user: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+	name: { type: String, maxlength: 20 },
 	phone: { type: String, maxlength: 11 },
 	introduction: { type: String, maxlength: 200 },
-});
-
-// MerchantSchema.virtual('register_date_yyyy_mm_dd').get(function () {
-// 	return moment(this.register_date).format('YYYY-MM-DD');
-// });
+	address: { type: String, maxlength: 60 },
+	delivery_cost: { type: Number, min: 0, max: 999, default: 0 },
+	min_delivery_price: { type: Number, min: 0, max: 9999, default: 0 }
+})
 
 module.exports = mongoose.model('Merchant', MerchantSchema);
