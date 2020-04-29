@@ -1,11 +1,11 @@
 @baseUrl = http://localhost:3000/api/v1
-@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTU3Mzk3MTExMTY5MjA2YzM2ODIwMiIsImlhdCI6MTU4NzkwMTQ1NywiZXhwIjoxNTg4NTA2MjU3fQ.lRXkOGWmpHlKAJJWwZJNAKNDGnzViL6MUlL9dcfzBKQ
+@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTk3YmJmNTZmOWIxMjkwODhjMDg2ZCIsImlhdCI6MTU4ODE2NTYzMywiZXhwIjoxNTg4NzcwNDMzfQ.CXjGE4ykT60FKkEsl_R0v_vggAW7jlyDK0HoVf9I5ls
 ### 用户登录
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "user_name": "user3",
+  "user_name": "user1",
   "password": "12345678"
 }
 
@@ -24,7 +24,7 @@ POST {{baseUrl}}/register/admin
 Content-Type: application/json
 
 {
-  "user_name": "user6",
+  "user_name": "user1",
   "password": "12345678"
 }
 
@@ -32,9 +32,13 @@ Content-Type: application/json
 GET {{baseUrl}}/admins/5ea44e83ed9ee81cf4895b0f
 {{authorization}}
 
+### 获取管理员自身信息
+GET {{baseUrl}}/admins/profile
+{{authorization}}
 
-## 更新管理员信息
-PUT {{baseUrl}}/admins/5ea44f0a4795991a34a80ca7
+
+### 更新管理员信息
+PUT {{baseUrl}}/admins/5ea97bbf56f9b129088c086e
 {{authorization}}
 Content-Type: application/json
 
@@ -56,12 +60,12 @@ POST {{baseUrl}}/register/merchant
 Content-Type: application/json
 
 {
-   "user_name": "user8",
+   "user_name": "user2",
    "password": "123456789"
 }
 
 ### 更新商家
-PUT  {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
+PUT  {{baseUrl}}/merchants/5ea915e456f9b129088c0868
 {{authorization}}
 Content-Type: application/json
 
@@ -79,7 +83,7 @@ GET {{baseUrl}}/merchants?offset=0&limit=1
 {{authorization}}
 
 ### 获取商家信息
-GET {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
+GET {{baseUrl}}/merchants/5ea6e9926bf12529ccaa63f7
 {{authorization}}
 
 ### 删除商家

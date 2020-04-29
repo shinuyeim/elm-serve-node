@@ -183,7 +183,7 @@ exports.admin_detail = (req, res, next) => {
             return res.status(422).send({
                 message: "Admin not found!"
             })
-        }
+        } 3
 
         const resData = {
             "_id": existedAdmin._id,
@@ -197,4 +197,26 @@ exports.admin_detail = (req, res, next) => {
     });
 }
 
+exports.admin_profile = (req, res, next) => {
+    Admin.findById(req.auth.adminid).populate('user').exec((err, existedAdmin) => {
+        if (err) { return next(err) }
+
+        if (!existedAdmin) {
+            return res.status(422).send({
+                message: "Admin not found!"
+            })
+        }
+
+        const resData = {
+            "_id": existedAdmin._id,
+            "name": existedAdmin.name,
+            "privilege": existedAdmin.privilege,
+            "city": existedAdmin.city,
+            "user_name": existedAdmin.user.user_name,
+            "register_date": existedAdmin.user.register_date
+        }
+
+        return res.status(200).send(resData);
+    });
+}
 

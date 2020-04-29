@@ -23,4 +23,6 @@ router.put('/:id', admin_controller.admin_update);
 
 router.get('/:id', admin_controller.admin_detail);
 
+router.get('/profile',admin_controller.admin_profile);
+
 module.exports = router;
