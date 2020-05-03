@@ -17,12 +17,14 @@ router.use((req, res, next) => {
 // GET request for list of all Admin.
 router.get('/', admin_controller.admin_list);
 
+router.get('/profile',admin_controller.admin_profile);
+
 router.delete('/:id', admin_controller.admin_delete);
 
 router.put('/:id', admin_controller.admin_update);
 
 router.get('/:id', admin_controller.admin_detail);
 
-router.get('/profile',admin_controller.admin_profile);
+
 
 module.exports = router;

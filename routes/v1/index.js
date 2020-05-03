@@ -6,22 +6,26 @@ const jwt = require("jsonwebtoken");
 var User = require("../../models/user");
 var Admin = require("../../models/admin");
 var Merchant = require('../../models/merchant');
+var Customer = require("../../models/customer");
 
 // Require Router
 const userRouter = require("./user");
 const adminRouter = require("./admin");
 const merchantRouter = require("./merchant");
+const customerRouter = require("./customer");
 
 // Require controllers.
 var user_controller = require('../../controllers/userController');
 var admin_controller = require('../../controllers/adminController');
 var merchant_controller = require('../../controllers/merchantController');
+var customer_controller = require('../../controllers/customerController');
 
 // Router login and register
 router.post("/login", user_controller.user_login);
 
 router.post("/register/admin", admin_controller.admin_create);
 router.post("/register/merchant", merchant_controller.merchant_create);
+router.post("/register/customer", customer_controller.customer_create);
 
 /*
 / 路由鉴权，Token解析
@@ -91,6 +95,15 @@ router.use((req, res, next) => {
                 delete req.auth.userid;
                 next();
             });
+        case 2:
+            Customer.findOne({ user: req.auth.userid }).then((existedCustomer) => {
+                if (!existedCustomer) {
+                    return res.status(500).send();
+                }
+                req.auth.customerid = existedCustomer._id;
+                delete req.auth.userid;
+                next();
+            });
         default:
             return res.status(500).send({
                 message: "role type not find!"
@@ -99,6 +112,7 @@ router.use((req, res, next) => {
 })
 
 router.use("/admins", adminRouter);
-router.use("/merchants", merchantRouter)
+router.use("/merchants", merchantRouter);
+router.use("/customers", customerRouter);
 
 module.exports = router;

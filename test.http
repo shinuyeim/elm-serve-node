@@ -24,7 +24,7 @@ POST {{baseUrl}}/register/admin
 Content-Type: application/json
 
 {
-  "user_name": "user1",
+  "user_name": "user3",
   "password": "12345678"
 }
 
@@ -89,3 +89,25 @@ GET {{baseUrl}}/merchants/5ea6e9926bf12529ccaa63f7
 ### 删除商家
 DELETE {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
 {{authorization}}
+
+
+### 注册顾客
+POST {{baseUrl}}/register/customer
+Content-Type: application/json
+
+{
+  "user_name": "user4",
+  "password": "12345678"
+}
+
+### 更新顾客
+PUT  {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+{{authorization}}
+Content-Type: application/json
+
+{
+  "name": "shinuye",
+  "phone": "18514964682",
+  "address": "张杨路3611号金桥国际商业广场1座B1层"
+}
+ 
