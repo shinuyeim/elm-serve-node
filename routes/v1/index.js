@@ -95,6 +95,7 @@ router.use((req, res, next) => {
                 delete req.auth.userid;
                 next();
             });
+            break;
         case 2:
             Customer.findOne({ user: req.auth.userid }).then((existedCustomer) => {
                 if (!existedCustomer) {
@@ -104,6 +105,7 @@ router.use((req, res, next) => {
                 delete req.auth.userid;
                 next();
             });
+            break;
         default:
             return res.status(500).send({
                 message: "role type not find!"

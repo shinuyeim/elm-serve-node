@@ -71,7 +71,7 @@ exports.customer_update = [
                 address: req.body.address,
                 phone: req.body.phone
             }
-            Merchant.findByIdAndUpdate(req.params.id, customer, {}, function (err) {
+            Customer.findByIdAndUpdate(req.params.id, customer, {}, function (err) {
                 if (err) {
                     return next(err);
                 }
@@ -81,3 +81,68 @@ exports.customer_update = [
         }
     }
 ];
+
+// Display list of all customers.
+exports.customer_list = function (req, res, next) {
+    const { limit = 20, offset = 0 } = req.query;
+
+    async.parallel({
+        total_count: function (callback) {
+            Customer.countDocuments().exec(callback)
+        },
+        list_customers: function (callback) {
+            Customer.find()
+                .sort({ 'register_date': 'descending' })
+                .skip(Number(offset))
+                .limit(Number(limit))
+                .exec(callback)
+        }
+    }, function (err, result) {
+        if (err) { return next(err); }
+        res.status(200).json({
+            metadata: {
+                Total: result.total_count,
+                Limit: Number(limit),
+                LimitOffset: Number(offset),
+                ReturnedRows: result.list_customers.length
+            },
+            data: result.list_customers
+        })
+    }
+    )
+
+};
+
+exports.customer_info = function (req, res, next) {
+
+    Customer.findById(req.params.id).populate('user').exec((err, existedCustomer) => {
+        if (err) { return next(err) }
+
+        if (!existedCustomer) {
+            return res.status(422).send({
+                message: "Customer not found!"
+            })
+        }
+
+        const resData = {
+            "_id": existedCustomer._id,
+            "name": existedCustomer.name,
+            "address": existedCustomer.address,
+            "phone": existedCustomer.phone
+        }
+        return res.status(200).send(resData);
+    });
+    const customer_id = req.params.id;
+};
+
+exports.customer_delete = function (req, res, next) {
+
+    const customer_id = req.params.id;
+
+    Customer.findById(customer_id).then(async (existedCustomer) => {
+        if (!existedCustomer) { return res.status(204).send(); }
+        await User.findByIdAndRemove(existedCustomer.user);
+        await existedCustomer.remove();
+        res.status(204).send();
+    })
+}

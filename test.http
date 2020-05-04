@@ -1,11 +1,12 @@
 @baseUrl = http://localhost:3000/api/v1
-@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTk3YmJmNTZmOWIxMjkwODhjMDg2ZCIsImlhdCI6MTU4ODE2NTYzMywiZXhwIjoxNTg4NzcwNDMzfQ.CXjGE4ykT60FKkEsl_R0v_vggAW7jlyDK0HoVf9I5ls
+@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWVlNDViNjBkYjZkMmNhY2ZlYWZmMCIsImlhdCI6MTU4ODU5NDkxMSwiZXhwIjoxNTg5MTk5NzExfQ.UO5nUqzz7J2ny4qg2GmTu6eU6QBuv4jm5vfF5OXi2j0
+
 ### 用户登录
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "user_name": "user1",
+  "user_name": "user4",
   "password": "12345678"
 }
 
@@ -65,7 +66,7 @@ Content-Type: application/json
 }
 
 ### 更新商家
-PUT  {{baseUrl}}/merchants/5ea915e456f9b129088c0868
+PUT  {{baseUrl}}/merchants/5eaed9f17e940e08ec2221b5
 {{authorization}}
 Content-Type: application/json
 
@@ -101,7 +102,7 @@ Content-Type: application/json
 }
 
 ### 更新顾客
-PUT  {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+PUT {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
 {{authorization}}
 Content-Type: application/json
 
