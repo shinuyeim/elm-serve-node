@@ -111,4 +111,16 @@ Content-Type: application/json
   "phone": "18514964682",
   "address": "张杨路3611号金桥国际商业广场1座B1层"
 }
- 
+
+
+### 获取顾客列表
+GET {{baseUrl}}/customers?offset=0&limit=1
+{{authorization}}
+
+### 获取顾客信息
+GET {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+{{authorization}}
+
+### 删除顾客
+DELETE {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+{{authorization}}
