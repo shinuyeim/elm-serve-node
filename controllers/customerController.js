@@ -128,7 +128,9 @@ exports.customer_info = function (req, res, next) {
             "_id": existedCustomer._id,
             "name": existedCustomer.name,
             "address": existedCustomer.address,
-            "phone": existedCustomer.phone
+            "phone": existedCustomer.phone,
+            "user_name": existedCustomer.user.user_name,
+            "register_date": existedCustomer.user.register_date,
         }
         return res.status(200).send(resData);
     });
