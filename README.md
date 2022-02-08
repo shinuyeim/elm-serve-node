@@ -1,7 +1,7 @@
 # elm-server-node
 [README in English](README_EN.md)
 
-这是shinuyyeim/elm项目的后端系统，相关API参见 [API.md](API.md)。
+这是shinuyeim/elm项目的后端系统，相关API参见 [API.md](API.md)。
 
 该项目管理系统（前端），参见 [elm-manage-vue2](https://github.com/shinuyeim/elm-manage-vue2)。
 

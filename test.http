@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000/api/v1
+@baseUrl = http://localhost:3001/api/v1
 @authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWVlNDViNjBkYjZkMmNhY2ZlYWZmMCIsImlhdCI6MTU4ODU5NDkxMSwiZXhwIjoxNTg5MTk5NzExfQ.UO5nUqzz7J2ny4qg2GmTu6eU6QBuv4jm5vfF5OXi2j0
 
 ### 用户登录
@@ -100,7 +100,7 @@ Content-Type: application/json
   "user_name": "user4",
   "password": "12345678"
 }
-
+ 
 ### 更新顾客
 PUT {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
 {{authorization}}

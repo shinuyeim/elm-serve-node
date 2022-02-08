@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 // Models
 var User = require("../../models/user");
 var Admin = require("../../models/admin");
-var Merchant = require('../../models/merchant');
+var Merchant = require("../../models/merchant");
 var Customer = require("../../models/customer");
 
 // Require Router
@@ -15,10 +15,10 @@ const merchantRouter = require("./merchant");
 const customerRouter = require("./customer");
 
 // Require controllers.
-var user_controller = require('../../controllers/userController');
-var admin_controller = require('../../controllers/adminController');
-var merchant_controller = require('../../controllers/merchantController');
-var customer_controller = require('../../controllers/customerController');
+var user_controller = require("../../controllers/userController");
+var admin_controller = require("../../controllers/adminController");
+var merchant_controller = require("../../controllers/merchantController");
+var customer_controller = require("../../controllers/customerController");
 
 // Router login and register
 router.post("/login", user_controller.user_login);
