@@ -11,8 +11,8 @@ if (!userArgs[0].startsWith("mongodb")) {
 }
 
 var async = require("async");
-var Admin = require("../models/admin/admin.js");
-var Merchant = require("../models/merchant/merchant.js");
+var Admin = require("../models/admin.js");
+var Merchant = require("../models/merchant.js");
 
 const adminData = require("./data/adminData");
 const merchantData = require("./data/merchantData");
@@ -20,6 +20,7 @@ const merchantData = require("./data/merchantData");
 var mongoose = require("mongoose");
 var mongoDB = userArgs[0];
 mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;

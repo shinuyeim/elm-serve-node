@@ -43,7 +43,7 @@ DELETE：用于删除资源。
 ### 公共变量
 
 ```
-baseUrl: http://localhost:3000/api
+baseUrl: http://localhost:3001/api
 authorization = Authorization: Bearer <token>
 ```
 
@@ -77,7 +77,7 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "user_name": "user2",
+  "user_name": "user1",
   "password": "123456"
 }
 ```

@@ -10,22 +10,22 @@
 ### 本地服务器
 ------------
 
-This app comes with a simple server ([`server.js`](./server.js)), but can be served through any means.
+该应用程序自带一个简单的服务器（[`server.js`](./server.js)），但可以通过任何方式提供服务。
 
-To use the packaged server:
+要使用打包的服务器，你需要按照以下步骤操作：
 
-* Install [node.js](http://nodejs.org/)
-* From the root directory, run `npm install`
+* 安装 [node.js](http://nodejs.org/)
+* 从根目录运行 `npm install`。
 
-Pupulate MongoDB database
+填充 MongoDB 数据库
 ```
-node populatedb/populatedb.js mongodb://localhost:27017/elm_server
+node populatedb/populatedb.js mongodb://127.0.0.1:27017/elm_server
 ```
 
-Available scripts:
-* `npm start` - Start server
-* `npm run devstart` - Start server with nodemon
-* `DEBUG=elm-server-node:* npm run devstart` - Start server with debug mode
+可用的脚本:
+* `npm start` - 启动服务
+* `npm run devstart` - 使用 nodemon 这个工具来启动服务器
+* `DEBUG=elm-server-node:* npm run devstart` - 启动服务器并使用调试模式
 
 ## 功能特性
 - [ ] 管理员注册登录 -- 进行中
@@ -35,14 +35,14 @@ Available scripts:
 
 ## 参与贡献
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+请阅读[CONTRIBUTING.md](CONTRIBUTING.md)文件，了解我们的行为准则详情，以及向我们提交拉取请求的过程。
 
 ## 文件说明
-* [/bin/www](/bin/www) - the entry point of the application
-* [app.js](app.js) - This file creates an express application object.
-* [package.json](package.json) - Dependencies for the node.js server.
-* [API.md](API.md) - RESTful API of this application.
+* [/bin/www](/bin/www) - 应用程序的入口点
+* [app.js](app.js) - 该文件创建了一个 Express 应用程序对象
+* [package.json](package.json) - Node.js 服务器的依赖项
+* [API.md](API.md) - 这个应用程序的 RESTful API
 
 ## 致谢
-* [Express](https://expressjs.com/) - The web framework used
-* [Mongoose](https://mongoosejs.com/) - mongodb object modeling for node.js
+* [Express](https://expressjs.com/) - 所使用的网络框架
+* [Mongoose](https://mongoosejs.com/) - MongoDB 对象建模用于 Node.js

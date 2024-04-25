@@ -1,17 +1,17 @@
 @baseUrl = http://localhost:3001/api/v1
-@authorization = Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWVlNDViNjBkYjZkMmNhY2ZlYWZmMCIsImlhdCI6MTU4ODU5NDkxMSwiZXhwIjoxNTg5MTk5NzExfQ.UO5nUqzz7J2ny4qg2GmTu6eU6QBuv4jm5vfF5OXi2j0
+@authorization = Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MmEyMjQ2NmE0M2EyNjJlNDc3OTUxZCIsImlhdCI6MTcxNDAzNzM0OCwiZXhwIjoxNzE0NjQyMTQ4fQ.hj-Dgc-VYU4NWxvVMEDgMH2nsAY0R6dSSKZvM26yMDk
 
 ### 用户登录
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "user_name": "user4",
+  "user_name": "user2",
   "password": "12345678"
 }
 
 ### 更新用户信息
-PUT {{baseUrl}}/users/5ea57397111169206c368202
+PUT {{baseUrl}}/users/662a22466a43a262e477951d
 {{authorization}}
 Content-Type: application/json
 
@@ -25,12 +25,12 @@ POST {{baseUrl}}/register/admin
 Content-Type: application/json
 
 {
-  "user_name": "user3",
+  "user_name": "user2",
   "password": "12345678"
 }
 
 ### 获取管理员信息
-GET {{baseUrl}}/admins/5ea44e83ed9ee81cf4895b0f
+GET {{baseUrl}}/admins/6623cfde8398eb3a90824c13
 {{authorization}}
 
 ### 获取管理员自身信息
@@ -39,7 +39,7 @@ GET {{baseUrl}}/admins/profile
 
 
 ### 更新管理员信息
-PUT {{baseUrl}}/admins/5ea97bbf56f9b129088c086e
+PUT {{baseUrl}}/admins/6623cfde8398eb3a90824c13
 {{authorization}}
 Content-Type: application/json
 
@@ -53,7 +53,7 @@ GET {{baseUrl}}/admins?offset=0&limit=1
 {{authorization}}
 
 ### 删除管理员
-DELETE {{baseUrl}}/admins/5ea44f90fc6be23c940fbf9c
+DELETE {{baseUrl}}/admins/6623cfde8398eb3a90824c13
 {{authorization}}
 
 ### 注册商家
@@ -61,12 +61,12 @@ POST {{baseUrl}}/register/merchant
 Content-Type: application/json
 
 {
-   "user_name": "user2",
-   "password": "123456789"
+   "user_name": "user3",
+   "password": "123456"
 }
 
 ### 更新商家
-PUT  {{baseUrl}}/merchants/5eaed9f17e940e08ec2221b5
+PUT  {{baseUrl}}/merchants/66287c36cc8dfa3a8c06530e
 {{authorization}}
 Content-Type: application/json
 
@@ -84,11 +84,11 @@ GET {{baseUrl}}/merchants?offset=0&limit=1
 {{authorization}}
 
 ### 获取商家信息
-GET {{baseUrl}}/merchants/5ea6e9926bf12529ccaa63f7
+GET {{baseUrl}}/merchants/66287c36cc8dfa3a8c06530e
 {{authorization}}
 
 ### 删除商家
-DELETE {{baseUrl}}/merchants/5ea6eaca5c626018d044c4f8
+DELETE {{baseUrl}}/merchants/66287c36cc8dfa3a8c06530e
 {{authorization}}
 
 
@@ -97,12 +97,12 @@ POST {{baseUrl}}/register/customer
 Content-Type: application/json
 
 {
-  "user_name": "user4",
-  "password": "12345678"
+  "user_name": "user2",
+  "password": "123456"
 }
  
 ### 更新顾客
-PUT {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+PUT {{baseUrl}}/customers/66287b6ecc8dfa3a8c065301
 {{authorization}}
 Content-Type: application/json
 
@@ -118,9 +118,9 @@ GET {{baseUrl}}/customers?offset=0&limit=1
 {{authorization}}
 
 ### 获取顾客信息
-GET {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+GET {{baseUrl}}/customers/66287b6ecc8dfa3a8c065301
 {{authorization}}
 
 ### 删除顾客
-DELETE {{baseUrl}}/customers/5eaee45b60db6d2cacfeaff1
+DELETE {{baseUrl}}/customers/66287b6ecc8dfa3a8c065301
 {{authorization}}

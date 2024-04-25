@@ -13,7 +13,8 @@ var app = express();
 
 // Set up mongoose connection
 var mongoose = require("mongoose");
-var mongoDB = process.env.DB_HOST+"?retryWrites=true";;
+var mongoDB = process.env.DB_HOST+"?retryWrites=true";
+//const mongoDB = "mongodb://127.0.0.1:27017/elm_server";
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -52,7 +53,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // 路由
 // app.use('/', indexRouter);
-app.use('/api',apiRouters);
+app.use('/api', apiRouters);
 
 
 // catch 404 and forward to error handler
